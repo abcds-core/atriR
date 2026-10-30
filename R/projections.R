@@ -152,18 +152,18 @@ get_demographic_projections <- function(
   )
 }
 
-# all_participants <- atriReporter::get_demographic_projections(622)
-# all_controls <- atriReporter::get_demographic_projections(50, controls = TRUE)
+# all_participants <- atriR::get_demographic_projections(622)
+# all_controls <- atriR::get_demographic_projections(50, controls = TRUE)
 
 # # fmt: skip
-# ucam_participants <- atriReporter::get_demographic_projections(45, site_initials == "UCAM")
+# ucam_participants <- atriR::get_demographic_projections(45, site_initials == "UCAM")
 # # fmt: skip
-# ucam_controls <- atriReporter::get_demographic_projections(6, site_initials == "UCAM", controls = TRUE)
+# ucam_controls <- atriR::get_demographic_projections(6, site_initials == "UCAM", controls = TRUE)
 
 # # fmt: skip
-# all_minus_ucam_participants <- atriReporter::get_demographic_projections(620-45, site_initials != "UCAM")
+# all_minus_ucam_participants <- atriR::get_demographic_projections(620-45, site_initials != "UCAM")
 # # fmt: skip
-# all_minus_ucam_controls <- atriReporter::get_demographic_projections(50-5.5, site_initials != "UCAM")
+# all_minus_ucam_controls <- atriR::get_demographic_projections(50-5.5, site_initials != "UCAM")
 
 # create_table <- function(participants, controls) {
 #   #originals <- dplyr::bind_rows(participants$Original, controls$Original)
@@ -185,7 +185,7 @@ get_demographic_projections <- function(
 #       values = c("", "Not Hispanic/Latino", "Hispanic/Latino", ""),
 #       colwidths = c(1, 2, 2, 1)
 #     ) |>
-#     atriReporter:::ft_add_abcds_theme(grouped_column = TRUE) |>
+#     atriR:::ft_add_abcds_theme(grouped_column = TRUE) |>
 #     flextable::width(j = 1, width = 3) |>
 #     flextable::width(j = 2:6, width = 1) |>
 #     flextable::bold(i = ~ is.na(Category)) |>

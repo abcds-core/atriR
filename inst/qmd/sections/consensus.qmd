@@ -4,9 +4,9 @@
 #| eval: !expr params$consensus_primary_by_cycle
 #| results: asis
 
-atriReporter:::format_quarto("Consensus Primary By Cycle", "subsection")
+atriR:::format_quarto("Consensus Primary By Cycle", "subsection")
 
-consensus <- atriReporter::get_consensus(
+consensus <- atriR::get_consensus(
   ccdprim,
   prcldgpr,
   apply_labels = TRUE
@@ -24,8 +24,8 @@ consensus %>%
     values_fill = 0
   ) %>%
   flextable::flextable() %>%
-  atriReporter:::ft_add_abcds_theme()
+  atriR:::ft_add_abcds_theme()
 
-atriReporter:::format_quarto(type = "newpage")
+atriR:::format_quarto(type = "newpage")
 
 ```

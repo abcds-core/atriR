@@ -76,7 +76,7 @@ get_registry <- function(
 #' @export
 
 create_registry_table <- function() {
-  registry <- atriReporter::get_registry(examdate, apply_labels = TRUE)
+  registry <- atriR::get_registry(examdate, apply_labels = TRUE)
   registry$event_label <- gsub(" - Month [0-9]{1,2}", "", registry$event_label)
 
   enrollment_tbl <- registry |>
@@ -101,5 +101,5 @@ create_registry_table <- function() {
         dplyr::mutate(Year = "Totals", .before = 1)
     ) |>
     flextable::flextable() |>
-    atriReporter:::ft_add_abcds_theme()
+    atriR:::ft_add_abcds_theme()
 }

@@ -47,7 +47,7 @@ own worksheet.
 }
 \details{
 Equations are loaded automatically from
-\code{system.file("extdata/equations.csv", package = "atriReporter")} and
+\code{system.file("extdata/equations.csv", package = "atriR")} and
 do not need to be supplied by the user.
 
 The function runs \code{\link{check_equations}} for each of the following

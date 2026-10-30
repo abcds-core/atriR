@@ -4,12 +4,12 @@
 #| eval: !expr (params$ntg_counts)
 #| results: asis
 
-atriReporter:::format_quarto(
+atriR:::format_quarto(
   "Participants with Completed NTG-EDSD Assessments",
   "subsection"
 )
 
-ntgATRI <- atriReporter::get_ntgedsd(done)
+ntgATRI <- atriR::get_ntgedsd(done)
 ntgATRI$ids <- ntgATRI$subject_label
 doneindx <- which(colnames(ntgATRI) == "done")
 colnames(ntgATRI)[doneindx] <- "ntg_done"
@@ -18,7 +18,7 @@ if (!is.null(params$lonidir)) {
   ntgATRI <- params$lonidir %>%
     list.files(pattern = "NTG", full.names = TRUE) %>%
     utils::read.csv() %>%
-    atriReporter::loni_join(
+    atriR::loni_join(
       atri_data = ntgATRI,
       loni_data = .,
       variables = "ntg_done"
@@ -26,7 +26,7 @@ if (!is.null(params$lonidir)) {
 }
 
 ntg_counts <-
-  atriReporter::count_by(
+  atriR::count_by(
     data = ntgATRI,
     id = ids,
     column = ntg_done
@@ -43,7 +43,7 @@ ntg_counts %>%
   dplyr::mutate(variable = "Count") %>%
   dplyr::rename(`NTG-EDSD` = variable) %>%
   flextable::flextable() %>%
-  atriReporter:::ft_add_abcds_theme() %>%
+  atriR:::ft_add_abcds_theme() %>%
   flextable::add_footer_row(
     values = ntg_counts_footnote,
     colwidths = (max(ntg_time) + 1)
@@ -54,6 +54,6 @@ ntg_counts %>%
     width = 4 / max(ntg_time)
   )
 
-atriReporter:::format_quarto(type = "newpage")
+atriR:::format_quarto(type = "newpage")
 
 ```

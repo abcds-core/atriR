@@ -4,7 +4,7 @@
 #| eval: !expr any(grepl("karyotype", names(params)))
 #| results: asis
 
-karyotype <- atriReporter::get_karyotype(
+karyotype <- atriR::get_karyotype(
   karyotype,
   apply_labels = TRUE
 )
@@ -16,7 +16,7 @@ karyotype <- atriReporter::get_karyotype(
 #| eval: !expr params$karyotype
 #| results: asis
 
-atriReporter:::format_quarto("Karyotype", "subsection")
+atriR:::format_quarto("Karyotype", "subsection")
 
 karyotype %>%
   dplyr::count(karyotype) %>%
@@ -27,10 +27,10 @@ karyotype %>%
     values_fill = 0
   ) %>%
   flextable::flextable() %>%
-  atriReporter:::ft_add_abcds_theme() %>%
+  atriR:::ft_add_abcds_theme() %>%
   flextable::width(width = 5.25 / 3)
 
-atriReporter:::format_quarto(type = "newpage")
+atriR:::format_quarto(type = "newpage")
 
 ```
 
@@ -39,7 +39,7 @@ atriReporter:::format_quarto(type = "newpage")
 #| eval: !expr params$karyotype_by_site
 #| results: asis
 
-atriReporter:::format_quarto("Karyotype by Site", "subsection")
+atriR:::format_quarto("Karyotype by Site", "subsection")
 
 karyotype %>%
   dplyr::group_by(Site = site_label) %>%
@@ -51,10 +51,10 @@ karyotype %>%
     values_fill = 0
   ) %>%
   flextable::flextable() %>%
-  atriReporter:::ft_add_abcds_theme() %>%
+  atriR:::ft_add_abcds_theme() %>%
   flextable::width(j = 1, width = 2.25) %>%
   flextable::width(j = 2:4, width = 1)
 
-atriReporter:::format_quarto(type = "newpage")
+atriR:::format_quarto(type = "newpage")
 
 ```

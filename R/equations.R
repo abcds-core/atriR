@@ -98,13 +98,13 @@ check_equations <- function(task, equations) {
       dsmse = ,
       verbal = ,
       blockwisc = ,
-      tbatgs = atriReporter::get_cognition,
-      ntgedsd = atriReporter::get_ntgedsd,
-      dld = atriReporter::get_dld,
-      npi = atriReporter::get_npi,
-      reiss = atriReporter::get_reiss,
-      iq = atriReporter::get_iq,
-      cancellation = atriReporter::get_cancellation,
+      tbatgs = atriR::get_cognition,
+      ntgedsd = atriR::get_ntgedsd,
+      dld = atriR::get_dld,
+      npi = atriR::get_npi,
+      reiss = atriR::get_reiss,
+      iq = atriR::get_iq,
+      cancellation = atriR::get_cancellation,
     )
     fun(...)
   }
@@ -162,7 +162,7 @@ check_equations <- function(task, equations) {
 #'
 #' @details
 #' Equations are loaded automatically from
-#' \code{system.file("extdata/equations.csv", package = "atriReporter")} and
+#' \code{system.file("extdata/equations.csv", package = "atriR")} and
 #' do not need to be supplied by the user.
 #'
 #' The function runs \code{\link{check_equations}} for each of the following
@@ -208,7 +208,7 @@ check_equations <- function(task, equations) {
 #' @seealso \code{\link{check_equations}} for the underlying validation logic.
 #'
 #' @importFrom utils read.csv
-#' @importFrom atriReporter get_demographics
+#' @importFrom atriR get_demographics
 #' @importFrom purrr map_dfr map walk
 #' @importFrom dplyr mutate relocate right_join
 #' @importFrom openxlsx createWorkbook addWorksheet writeData saveWorkbook
@@ -223,7 +223,7 @@ check_all_equations <- function(
   writeFile = FALSE
 ) {
   equations <- utils::read.csv(
-    system.file("extdata/equations.csv", package = "atriReporter")
+    system.file("extdata/equations.csv", package = "atriR")
   )
 
   # fmt: skip
@@ -234,7 +234,7 @@ check_all_equations <- function(
   #cb <- purrr::map_dfr(tasks, ~ get_codebook(abcds, !!.x))
 
   # Fetch eval_date
-  eval <- atriReporter::get_demographics(de_eval_date)
+  eval <- atriR::get_demographics(de_eval_date)
 
   id_cols <- c("subject_label", "site_initials", "event_code")
 

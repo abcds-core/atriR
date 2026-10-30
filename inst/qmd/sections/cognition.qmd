@@ -21,12 +21,12 @@ cogATRI <- purrr::map2(
   cognition_map[["atri_task_names"]],
   cognition_map[["loni_variable_names"]],
   .f = function(x, y) {
-    cog <- atriReporter::get_cognition(done, task = x)
+    cog <- atriR::get_cognition(done, task = x)
     dplyr::rename(cog, !!y := "done")
   }
 )
 
-id_vars <- atriReporter:::get_ids(cogATRI[[1]])
+id_vars <- atriR:::get_ids(cogATRI[[1]])
 cogATRI <- purrr::reduce(cogATRI, dplyr::full_join, by = id_vars)
 cogATRI$ids <- cogATRI$subject_label
 
@@ -39,7 +39,7 @@ if (!is.null(params$lonidir)) {
       subject_label:event_sequence,
       cognition_map[["loni_variable_names"]]
     ) %>%
-    atriReporter:::loni_join(
+    atriR:::loni_join(
       atri_data = cogATRI,
       loni_data = .,
       variables = cognition_variables
@@ -54,12 +54,12 @@ if (!is.null(params$lonidir)) {
 #| eval: !expr params$cognition_task_counts
 #| results: asis
 
-atriReporter:::format_quarto(
+atriR:::format_quarto(
   "Number of Participants with Completed Cognition Tasks",
   "subsection"
 )
 
-cog_tasks <- atriReporter::multiple_count_by(
+cog_tasks <- atriR::multiple_count_by(
   data = cogATRI,
   names = cognition_map[["loni_variable_names"]],
   labels = cognition_map[["cognition_labels"]],
@@ -76,7 +76,7 @@ cog_tasks_footnote <- paste(
 
 cog_tasks %>%
   flextable::flextable() %>%
-  atriReporter:::ft_add_abcds_theme() %>%
+  atriR:::ft_add_abcds_theme() %>%
   flextable::add_footer_row(
     values = cog_tasks_footnote,
     colwidths = ncol(cog_tasks)
@@ -84,6 +84,6 @@ cog_tasks %>%
   flextable::width(j = 1, width = 1.5) %>%
   flextable::width(j = 2:(max(cog_time) + 1), width = 3.5 / max(cog_time))
 
-atriReporter:::format_quarto(type = "newpage")
+atriR:::format_quarto(type = "newpage")
 
 ```

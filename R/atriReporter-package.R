@@ -60,7 +60,7 @@
 #' @importFrom rlang .data
 #'
 #' @docType package
-#' @name atriReporter
+#' @name atriR
 #' @keywords internal
 "_PACKAGE"
 

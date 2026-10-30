@@ -5,7 +5,7 @@
 #| eval: !expr params$apoe
 #| results: asis
 
-atriReporter:::format_quarto("APOE Data from LONI", type = "subsection")
+atriR:::format_quarto("APOE Data from LONI", type = "subsection")
 
 apoe <- abcds::read_apoe(Sys.getenv("ABCDS_LONI_DATA_DIRECTORY"))
 
@@ -15,10 +15,10 @@ apoe %>%
     n = paste0(n, " (", round((n / nrow(apoe)) * 100, 2), "%)")
   ) %>%
   flextable::flextable() %>%
-  atriReporter:::ft_add_abcds_theme() %>%
+  atriR:::ft_add_abcds_theme() %>%
   flextable::set_header_labels(values = c("Allele Combination", "N (%)")) %>%
   flextable::width(width = 5.4 / 2)
 
-atriReporter:::format_quarto(type = "newpage")
+atriR:::format_quarto(type = "newpage")
 
 ```

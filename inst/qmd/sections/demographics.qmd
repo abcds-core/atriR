@@ -5,13 +5,13 @@
 #| eval: !expr params$enrollment_by_cycle
 #| results: asis
 
-atriReporter:::format_quarto("Enrollment by Year", "subsection")
+atriR:::format_quarto("Enrollment by Year", "subsection")
 
-atriReporter::create_registry_table() %>%
+atriR::create_registry_table() %>%
   flextable::width(j = 1, width = 1.25) %>%
   flextable::width(j = 2:5, width = 1)
 
-atriReporter:::format_quarto(type = "newpage")
+atriR:::format_quarto(type = "newpage")
 
 ```
 
@@ -27,10 +27,10 @@ atriReporter:::format_quarto(type = "newpage")
 demoVars <- c("de_race", "de_gender", "de_ethnicity")
 
 demoATRI <-
-  atriReporter::get_demographics(
+  atriR::get_demographics(
     !!!demoVars
   ) %>%
-  atriReporter::calculate_age_at_visit()
+  atriR::calculate_age_at_visit()
 
 if (!is.null(params$lonidir)) {
   loniAGE <- abcds::read_age_at_event(params$lonidir)
@@ -40,7 +40,7 @@ if (!is.null(params$lonidir)) {
       controls = FALSE
     ) %>%
     dplyr::full_join(loniAGE, by = c("subject_label", "event_sequence")) %>%
-    atriReporter:::loni_join(
+    atriR:::loni_join(
       atri_data = demoATRI,
       loni_data = .,
       variables = c(demoVars, "age_at_visit")
@@ -55,7 +55,7 @@ if (!is.null(params$lonidir)) {
 #| eval: !expr params$demographics
 #| results: asis
 
-atriReporter:::format_quarto("Demographics", "subsection")
+atriR:::format_quarto("Demographics", "subsection")
 
 if ("u01_event_code" %in% names(demoATRI)) {
   u19bl1 <- (is.na(demoATRI$u01_event_code) & demoATRI$u19_event_code == "cyc1") # U19 In LONI
@@ -104,13 +104,13 @@ baseDEMO %>%
   flextable::set_header_labels(
     values = c("Variable", paste0("N = ", nrow(baseDEMO)))
   ) %>%
-  atriReporter:::ft_add_abcds_theme() %>%
+  atriR:::ft_add_abcds_theme() %>%
   flextable::bold(i = c(1:2, 5:6), j = 1) %>%
   flextable::width(j = 1, width = 4) %>%
   flextable::width(j = 2, width = 1.5)
 
 
-atriReporter:::format_quarto(type = "newpage")
+atriR:::format_quarto(type = "newpage")
 
 ```
 

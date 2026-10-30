@@ -155,7 +155,7 @@ check_kbit_results <- function() {
   kbit2 <- get_iq(!!!kbit_columns)
 
   kbit2 <- kbit2 |>
-    atriReporter::calculate_age_at_visit() |>
+    atriR::calculate_age_at_visit() |>
     dplyr::filter_out(
       dplyr::if_any(
         c(.data$age_at_visit, .data$kbit2verbkraw:.data$kbit2vnonvraw),
@@ -165,7 +165,7 @@ check_kbit_results <- function() {
     dplyr::select(dplyr::all_of(identifiers), dplyr::all_of(kbit_columns))
 
   kbit_calculations <-
-    atriReporter::calculate_kbit2_score(
+    atriR::calculate_kbit2_score(
       age_at_visit = as.numeric(kbit2$age_at_visit),
       kbit2verbkraw = as.numeric(kbit2$kbit2verbkraw),
       kbit2ridraw = as.numeric(kbit2$kbit2ridraw),
@@ -242,7 +242,7 @@ calculate_kbit2_score <- function(
   doParallel = TRUE
 ) {
   files <- list.files(
-    path = system.file("extdata", package = "atriReporter"),
+    path = system.file("extdata", package = "atriR"),
     pattern = "kbit2",
     full.names = TRUE
   )
@@ -372,11 +372,11 @@ calculate_kbit2_score <- function(
   }
 
   if (doParallel & length(kbit2verbkraw) > 1) {
-    cores = parallel::detectCores()
-    Ncores = cores - 1
-    cl = parallel::makeCluster(Ncores)
+    cores <- parallel::detectCores()
+    Ncores <- cores - 1
+    cl <- parallel::makeCluster(Ncores)
     doParallel::registerDoParallel(cl)
-    `%dopar%` = foreach::`%dopar%`
+    `%dopar%` <- foreach::`%dopar%`
     kbitres <-
       foreach::foreach(i = 1:length(kbit2verbkraw), .packages = "abcds") %dopar%
       {

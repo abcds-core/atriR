@@ -78,7 +78,7 @@ count_by <- function(data, id, ..., column, value = 1) {
 #' \enumerate{
 #'   \item Iterates through each variable name and its corresponding label using
 #'     \code{purrr::map2()}
-#'   \item For each variable, calls \code{atriReporter::count_by()} to count
+#'   \item For each variable, calls \code{atriR::count_by()} to count
 #'     occurrences grouped by the specified ID column(s)
 #'   \item Replaces the first column (variable identifier) with the custom label
 #'   \item Combines all individual count tables into a single data frame

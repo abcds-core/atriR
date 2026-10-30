@@ -47,7 +47,7 @@ generate_report <- function(..., outputdir, lonidir = NULL) {
     ))
   }
 
-  qmdfolder <- system.file("qmd", package = "atriReporter")
+  qmdfolder <- system.file("qmd", package = "atriR")
 
   invisible(
     file.copy(

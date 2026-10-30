@@ -4,19 +4,19 @@
 #| eval: !expr (params$blood_draw_counts) | (params$blood_draw_counts_controls)
 #| results: asis
 
-atriReporter:::format_quarto("Blood Draw Data", type = "subsection")
+atriR:::format_quarto("Blood Draw Data", type = "subsection")
 
 count_blood <- function(controls = FALSE, lonidir = NULL) {
   bloodVars <- c("bldedtadone", "bldserdone", "paxdone")
-  bloodATRI <- atriReporter::get_blood(!!!bloodVars, controls = controls)
+  bloodATRI <- atriR::get_blood(!!!bloodVars, controls = controls)
   # colnames(bloodATRI)[which(colnames(bloodATRI) == "done")] <- "paxdone"
-  id_vars <- atriReporter:::get_ids(bloodATRI)
+  id_vars <- atriR:::get_ids(bloodATRI)
   bloodATRI$ids <- bloodATRI$subject_label
 
   if (!is.null(params$lonidir)) {
     bloodATRI <- params$lonidir %>%
       abcds::read_blood(controls = controls) %>%
-      atriReporter:::loni_join(
+      atriR:::loni_join(
         atri_data = bloodATRI,
         loni_data = .,
         variables = bloodVars
@@ -24,7 +24,7 @@ count_blood <- function(controls = FALSE, lonidir = NULL) {
   }
 
   blood_counts <-
-    atriReporter::multiple_count_by(
+    atriR::multiple_count_by(
       data = bloodATRI,
       names = bloodVars,
       labels = c("Plasma", "Serum", "Paxgene"),
@@ -60,7 +60,7 @@ blood_counts_footnote <- paste(
 blood_counts %>%
   flextable::as_grouped_data(groups = "Person") %>%
   flextable::as_flextable(hide_grouplabel = TRUE) %>%
-  atriReporter:::ft_add_abcds_theme(grouped_column = TRUE) %>%
+  atriR:::ft_add_abcds_theme(grouped_column = TRUE) %>%
   flextable::add_footer_row(
     values = blood_counts_footnote,
     colwidths = (max(blood_time) + 1)
@@ -81,18 +81,18 @@ blood_counts %>%
 #| eval: !expr (params$csf_counts) | (params$csf_counts_controls)
 #| results: asis
 
-atriReporter:::format_quarto("CSF Spinal Tap", type = "subsection")
+atriR:::format_quarto("CSF Spinal Tap", type = "subsection")
 
 count_csf <- function(controls = FALSE, lonidir = NULL) {
-  csfATRI <- atriReporter::get_csf(done, csfvolcoll, controls = controls)
+  csfATRI <- atriR::get_csf(done, csfvolcoll, controls = controls)
   colnames(csfATRI)[which(colnames(csfATRI) == "done")] <- "csf_done"
-  id_vars <- atriReporter:::get_ids(csfATRI)
+  id_vars <- atriR:::get_ids(csfATRI)
   csfATRI$ids <- csfATRI$subject_label
 
   if (!is.null(params$lonidir)) {
     csfATRI <- params$lonidir %>%
       abcds::read_csf(controls = controls) %>%
-      atriReporter:::loni_join(
+      atriR:::loni_join(
         atri_data = csfATRI,
         loni_data = .,
         variables = c("csf_done", "csfvolcoll")
@@ -101,7 +101,7 @@ count_csf <- function(controls = FALSE, lonidir = NULL) {
 
   csfATRI$csf_valid <- csfATRI$csf_done == 1 & csfATRI$csfvolcoll > 0
 
-  csf_counts <- atriReporter::count_by(
+  csf_counts <- atriR::count_by(
     data = csfATRI,
     id = ids,
     column = csf_valid
@@ -137,7 +137,7 @@ csf_counts %>%
   dplyr::mutate(`CSF Spinal Tap` = "Count") %>%
   flextable::as_grouped_data(groups = "Person") %>%
   flextable::as_flextable(hide_grouplabel = TRUE) %>%
-  atriReporter:::ft_add_abcds_theme(grouped_column = TRUE) %>%
+  atriR:::ft_add_abcds_theme(grouped_column = TRUE) %>%
   flextable::add_footer_row(
     values = csf_counts_footnote,
     colwidths = (max(csf_time) + 1)
@@ -155,7 +155,7 @@ csf_counts %>%
 #| eval: !expr params$omics
 #| results: asis
 
-atriReporter:::format_quarto("Omics Data from LONI", type = "subsection")
+atriR:::format_quarto("Omics Data from LONI", type = "subsection")
 
 metabolomics <- readr::read_csv(
   list.files(
@@ -204,7 +204,7 @@ proteomics_tbl %>%
     values_fill = 0
   ) %>%
   flextable::flextable() %>%
-  atriReporter:::ft_add_abcds_theme() %>%
+  atriR:::ft_add_abcds_theme() %>%
   flextable::width(width = 5.25 / 3)
 
 ```

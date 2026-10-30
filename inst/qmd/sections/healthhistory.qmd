@@ -3,9 +3,9 @@
 #| eval: !expr (params$healthhistory) | (params$healthhistory_by_sex)
 #| results: asis
 
-atriReporter:::format_quarto("Health History", "subsection")
+atriR:::format_quarto("Health History", "subsection")
 
-healthhistory <- atriReporter::get_health(
+healthhistory <- atriR::get_health(
   hh_hypothyroidism,
   hh_hyperlipidemia,
   hh_menopausal,
@@ -23,9 +23,9 @@ healthhistory <- atriReporter::get_health(
 )
 
 if (params$healthhistory_by_sex) {
-  demographics <- atriReporter::get_demographics(de_gender, apply_labels = TRUE)
-  ids <- atriReporter:::get_ids(demographics)
-  healthhistory <- atriReporter::atri_join(
+  demographics <- atriR::get_demographics(de_gender, apply_labels = TRUE)
+  ids <- atriR:::get_ids(demographics)
+  healthhistory <- atriR::atri_join(
     demographics,
     healthhistory,
     by = ids,
@@ -68,7 +68,7 @@ create_chd_table <- function(data, filter_by = NULL) {
       `CHD Type` = factor(`CHD Type`, levels = chd, labels = chdlabels)
     ) %>%
     flextable::flextable() %>%
-    atriReporter:::ft_add_abcds_theme() %>%
+    atriR:::ft_add_abcds_theme() %>%
     flextable::width(j = 1, width = 2.25) %>%
     flextable::width(j = 2:5, width = 0.75)
 }
@@ -91,7 +91,7 @@ create_chd_table(healthhistory)
 #| eval: !expr params$healthhistory_by_sex
 #| results: asis
 
-atriReporter:::format_quarto(
+atriR:::format_quarto(
   "Congenital Heart Disease by Males",
   type = "subsubsection"
 )
@@ -105,7 +105,7 @@ create_chd_table(healthhistory, de_gender == "Male")
 #| eval: !expr params$healthhistory_by_sex
 #| results: asis
 
-atriReporter:::format_quarto(
+atriR:::format_quarto(
   "Congenital Heart Disease by Females",
   type = "subsubsection"
 )
@@ -177,7 +177,7 @@ create_health_conditions_table <- function(data, filter_by = NULL) {
       )
     ) %>%
     flextable::flextable() %>%
-    atriReporter:::ft_add_abcds_theme() %>%
+    atriR:::ft_add_abcds_theme() %>%
     flextable::width(j = 1:5, width = 1.05) %>%
     flextable::add_footer_row(values = diabetes_type, colwidths = 5)
 }
@@ -198,7 +198,7 @@ create_health_conditions_table(healthhistory)
 #| eval: !expr params$healthhistory_by_sex
 #| results: asis
 
-atriReporter:::format_quarto(
+atriR:::format_quarto(
   "Health Conditions by Males",
   type = "subsubsection"
 )
@@ -212,7 +212,7 @@ create_health_conditions_table(healthhistory, de_gender == "Male")
 #| eval: !expr params$healthhistory_by_sex
 #| results: asis
 
-atriReporter:::format_quarto(
+atriR:::format_quarto(
   "Health Conditions by Females",
   type = "subsubsection"
 )
@@ -252,7 +252,7 @@ healthhistory %>%
   ) %>%
   cbind(`Health History` = hhvarlabelsyn, .) %>%
   flextable::flextable() %>%
-  atriReporter:::ft_add_abcds_theme() %>%
+  atriR:::ft_add_abcds_theme() %>%
   flextable::width(j = 1, width = 2.05) %>%
   flextable::width(j = 2:3, width = 0.75) %>%
   flextable::width(j = 4, width = 1.75)
@@ -265,12 +265,12 @@ healthhistory %>%
 #| eval: !expr (params$healthhistory) | (params$healthhistory_by_sex)
 #| results: asis
 
-exam <- atriReporter::get_exam(ht, htu, wt, wtu, apply_labels = TRUE)
+exam <- atriR::get_exam(ht, htu, wt, wtu, apply_labels = TRUE)
 
 if (params$healthhistory_by_sex) {
-  demographics <- atriReporter::get_demographics(de_gender, apply_labels = TRUE)
-  ids <- atriReporter:::get_ids(demographics)
-  exam <- atriReporter::atri_join(
+  demographics <- atriR::get_demographics(de_gender, apply_labels = TRUE)
+  ids <- atriR:::get_ids(demographics)
+  exam <- atriR::atri_join(
     demographics,
     exam,
     by = ids,
@@ -347,7 +347,7 @@ create_bmi_table <- function(data, filter_by = NULL) {
     ) %>%
     tidyr::pivot_wider(names_from = Cycle) %>%
     flextable::flextable() %>%
-    atriReporter:::ft_add_abcds_theme() %>%
+    atriR:::ft_add_abcds_theme() %>%
     flextable::width(width = 5.3 / 4)
 }
 
@@ -368,7 +368,7 @@ create_bmi_table(bmi)
 #| eval: !expr params$healthhistory_by_sex
 #| results: asis
 
-atriReporter:::format_quarto(
+atriR:::format_quarto(
   "Anthropometrics by Males",
   type = "subsubsection"
 )
@@ -382,7 +382,7 @@ create_bmi_table(bmi, de_gender == "Male")
 #| eval: !expr params$healthhistory_by_sex
 #| results: asis
 
-atriReporter:::format_quarto(
+atriR:::format_quarto(
   "Anthropometrics by Females",
   type = "subsubsection"
 )
