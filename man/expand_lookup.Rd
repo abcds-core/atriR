@@ -9,16 +9,19 @@ expand_lookup(data, variable)
 \arguments{
 \item{data}{The data set containing the variable with the ranges}
 
-\item{variable}{The variable containing the range as indicated by a dash between two numeric values}
+\item{variable}{The variable containing the range as indicated by a
+dash between two numeric values}
 }
 \value{
 The expanded look-up table with the variable in descending order
 }
 \description{
-Expands the look-up table in cases where there are ranges in the scores
+Expands the look-up table in cases where there
+are ranges in the scores
 }
 \details{
-Expands the look-up table in cases where there are ranges in the scores
+Expands the look-up table in cases where there are
+ranges in the scores
 }
 \seealso{
 \code{\link[rlang]{:=}}

@@ -44,14 +44,16 @@ To perform a cross-join, generating all combinations of \code{x} and \code{y}, s
 (e.g., "inner_join"), a symbol (e.g., \code{inner_join}), or a function
 (e.g., \code{dplyr::inner_join}).}
 
-\item{...}{Additional arguments passed to the chosen \code{dplyr} join function.}
+\item{...}{Additional arguments passed to the chosen \code{dplyr}
+join function.}
 }
 \value{
 A \code{\link[tibble]{tibble}} containing the joined data.
 }
 \description{
-Performs a flexible join on two data frames using any \code{dplyr} join function
-specified by the user. Supports joins specified as a string, symbol, or function.
+Performs a flexible join on two data frames using any
+\code{dplyr} join function specified by the user. Supports
+joins specified as a string, symbol, or function.
 }
 \details{
 This function allows flexible selection of join type while joining two data

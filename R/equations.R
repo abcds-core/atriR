@@ -129,11 +129,11 @@ check_equations <- function(task, equations) {
       result$equation <- .y
       result$atri <- data[indx, .x, drop = TRUE]
       result$expected <- expected_values[indx]
-      return(result)
+      result
     }
   })
 
-  return(incorrect_values)
+  incorrect_values
 }
 
 #' Write Equation Check Results to Excel
@@ -146,17 +146,17 @@ check_equations <- function(task, equations) {
 #' own worksheet.
 #'
 #' @param outdir Character; path to the directory where the output Excel
-#'   file(s) will be saved. Required when \code{writeFile = TRUE}, ignored
+#'   file(s) will be saved. Required when \code{write_file = TRUE}, ignored
 #'   otherwise. Default is \code{NULL}.
 #' @param by_task Logical; if \code{TRUE}, organises results by task. When
-#'   \code{writeFile = TRUE}, writes \code{equation_checks_by_task.xlsx} with
+#'   \code{write_file = TRUE}, writes \code{equation_checks_by_task.xlsx} with
 #'   one worksheet per task. Default is \code{TRUE}.
 #' @param by_site Logical; if \code{TRUE}, organises results by site. When
-#'   \code{writeFile = TRUE}, writes \code{equation_checks_by_site.xlsx} with
+#'   \code{write_file = TRUE}, writes \code{equation_checks_by_site.xlsx} with
 #'   one worksheet per site. Default is \code{FALSE}.
-#' @param returnData Logical; if \code{TRUE}, returns the assessment results as
+#' @param return_data Logical; if \code{TRUE}, returns the assessment results as
 #'   a named list with one element per task. Default is \code{TRUE}.
-#' @param writeFile Logical; if \code{TRUE}, writes the results to Excel
+#' @param write_file Logical; if \code{TRUE}, writes the results to Excel
 #'   file(s) in \code{outdir}. Requires \code{outdir} to be specified.
 #'   Default is \code{FALSE}.
 #'
@@ -170,19 +170,19 @@ check_equations <- function(task, equations) {
 #' \code{recall}, \code{iq}, \code{cancellation}, \code{verbal},
 #' \code{tbatgs}, \code{blockwisc}.
 #'
-#' When \code{by_site = TRUE} and \code{writeFile = TRUE}, results are filtered
+#' When \code{by_site = TRUE} and \code{write_file = TRUE}, results are filtered
 #' to the following sites: \code{UPITT}, \code{UCISOM}, \code{MGH},
 #' \code{WASHU}, \code{UWI}, \code{UKY}, \code{NYSIBRDD}, \code{UCAM},
 #' \code{KUMC}, \code{PRUCDD}.
 #'
-#' Note that \code{writeFile = TRUE} requires \code{outdir} to be set;
+#' Note that \code{write_file = TRUE} requires \code{outdir} to be set;
 #' if \code{outdir} is \code{NULL} no files will be written regardless of
-#' \code{writeFile}.
+#' \code{write_file}.
 #'
-#' @return If \code{returnData = TRUE}, a named list with one tibble per task,
+#' @return If \code{return_data = TRUE}, a named list with one tibble per task,
 #'   each containing rows where stored values differ from computed values (see
 #'   \code{\link{check_equations}} for column details). Returns \code{NULL}
-#'   invisibly if \code{returnData = FALSE}.
+#'   invisibly if \code{return_data = FALSE}.
 #'
 #' @examples
 #' \dontrun{
@@ -191,17 +191,17 @@ check_equations <- function(task, equations) {
 #'
 #' # Write both workbooks and return results
 #' results <- check_all_equations(
-#'   outdir   = "output/checks",
-#'   by_task  = TRUE,
-#'   by_site  = TRUE,
-#'   writeFile = TRUE
+#'   outdir = "output/checks",
+#'   by_task = TRUE,
+#'   by_site = TRUE,
+#'   write_file = TRUE
 #' )
 #'
 #' # Write files only, suppress return value
 #' check_all_equations(
-#'   outdir      = "output/checks",
-#'   writeFile   = TRUE,
-#'   returnData  = FALSE
+#'   outdir = "output/checks",
+#'   write_file = TRUE,
+#'   return_data = FALSE
 #' )
 #' }
 #'
@@ -219,22 +219,31 @@ check_all_equations <- function(
   outdir = NULL,
   by_task = TRUE,
   by_site = FALSE,
-  returnData = TRUE,
-  writeFile = FALSE
+  return_data = TRUE,
+  write_file = FALSE
 ) {
   equations <- utils::read.csv(
     system.file("extdata/equations.csv", package = "atriR")
   )
 
-  # fmt: skip
-  sites <- c("UPITT", "UCISOM", "MGH", "WASHU", "UWI", "UKY", "NYSIBRDD", "UCAM", "KUMC", "PRUCDD", "UNTHSC")
+  sites <- c(
+    "UPITT",
+    "UCISOM",
+    "MGH",
+    "WASHU",
+    "UWI",
+    "UKY",
+    "NYSIBRDD",
+    "UCAM",
+    "KUMC",
+    "PRUCDD",
+    "UNTHSC"
+  )
+
   tasks <- unique(equations[, c("name", "task")])
 
-  # Can merge codebook labels when there are fewer changes
-  #cb <- purrr::map_dfr(tasks, ~ get_codebook(abcds, !!.x))
-
   # Fetch eval_date
-  eval <- atriR::get_demographics(de_eval_date)
+  eval <- atriR::get_demographics("de_eval_date")
 
   id_cols <- c("subject_label", "site_initials", "event_code")
 
@@ -244,7 +253,7 @@ check_all_equations <- function(
       check_equations(task = !!x, equations = equations) |>
         dplyr::mutate(
           task = !!x,
-          name = setNames(tasks[["name"]], tasks[["task"]])[task]
+          name = stats::setNames(tasks[["name"]], tasks[["task"]])[.data$task]
         )
     })
 
@@ -253,16 +262,19 @@ check_all_equations <- function(
   }
 
   all_assessments <- all_assessments |>
-    dplyr::relocate(name, task, .before = "variable") |>
-    # fmt: skip
-    dplyr::right_join(x = eval[, c(id_cols, "de_eval_date")], y = _, by = id_cols)
+    dplyr::relocate(.data$name, .data$task, .before = "variable") |>
+    dplyr::right_join(
+      x = eval[, c(id_cols, "de_eval_date")],
+      y = _,
+      by = id_cols
+    )
 
   if (by_site) {
     assessments_by_site <-
       sites |>
       purrr::map(~ all_assessments[all_assessments$site_initials == .x, ]) |>
       `names<-`(sites)
-    if (writeFile & !is.null(outdir)) {
+    if (write_file && !is.null(outdir)) {
       wb <- openxlsx::createWorkbook()
       purrr::walk(sites, .f = function(.x) {
         openxlsx::addWorksheet(wb, sheet = .x)
@@ -287,7 +299,7 @@ check_all_equations <- function(
       `names<-`(tasks[["task"]])
   }
 
-  if (writeFile & !is.null(outdir)) {
+  if (write_file && !is.null(outdir)) {
     wb <- openxlsx::createWorkbook()
     purrr::walk(tasks[["task"]], .f = function(.x) {
       openxlsx::addWorksheet(wb, sheet = .x)
@@ -304,15 +316,15 @@ check_all_equations <- function(
     )
   }
 
-  if (returnData) {
-    if (by_task & by_site) {
-      return(c(assessments_by_task, assessments_by_site))
+  if (return_data) {
+    if (by_task && by_site) {
+      c(assessments_by_task, assessments_by_site)
     }
     if (by_task) {
-      return(assessments_by_task)
+      assessments_by_task
     }
     if (by_site) {
-      return(assessments_by_site)
+      assessments_by_site
     }
   }
 }

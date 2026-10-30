@@ -15,24 +15,28 @@ post_atri_files(
 )
 }
 \arguments{
-\item{study}{A symbol or string identifying the study (e.g., \code{abcds}, \code{trcds},
-\code{test_trcds}). Used to retrieve the appropriate API token and server.}
+\item{study}{A symbol or string identifying the study (e.g., \code{abcds},
+\code{trcds}, \code{test_trcds}). Used to retrieve the appropriate API token
+and server.}
 
 \item{topic}{A symbol or string identifying the ATRI storage topic
 (e.g., \code{s3_archive}, \code{s3_topic}, \code{topics}).}
 
 \item{topic_code}{A symbol or string identifying the specific topic code
-within the ATRI system (e.g., \code{data_lake}, \code{data_pond_brain_health_report}).}
+within the ATRI system (e.g., \code{data_lake},
+\code{data_pond_brain_health_report}).}
 
 \item{site}{A character string specifying the site code associated with the
 uploaded file.}
 
-\item{label}{A short character string used as the file label in the ATRI system.}
+\item{label}{A short character string used as the file label in the
+ATRI system.}
 
-\item{description}{A character string providing a longer description of the file.}
+\item{description}{A character string providing a longer description
+of the file.}
 
-\item{source_file}{A file path to the file to be uploaded. The file is uploaded
-as a multipart form field. Currently assumed to be a PDF.}
+\item{source_file}{A file path to the file to be uploaded. The file
+is uploaded as a multipart form field. Currently assumed to be a PDF.}
 }
 \value{
 An HTTP response object returned by \pkg{httr2} from
@@ -40,17 +44,18 @@ An HTTP response object returned by \pkg{httr2} from
 status information for the upload request.
 }
 \description{
-Uploads a file to the ATRI server for a specified study, topic, and site using
-a multipart POST request. The function retrieves the appropriate API token and
-server endpoint based on the supplied study and topic information, then uploads
-the file with associated metadata.
+Uploads a file to the ATRI server for a specified study, topic,
+and site using a multipart POST request. The function retrieves
+the appropriate API token and server endpoint based on the
+supplied study and topic information, then uploads the file
+with associated metadata.
 }
 \details{
-This function constructs a multipart POST request using \pkg{httr2}. The file
-is uploaded using \code{curl::form_file()} and sent along with metadata fields
-required by the ATRI API. Authentication is handled via a token retrieved by
-\code{get_atri_token()}, and the target server endpoint is determined using
-\code{get_atri_server()}.
+This function constructs a multipart POST request using \pkg{httr2}.
+The file is uploaded using \code{curl::form_file()} and sent along
+with metadata fields required by the ATRI API. Authentication is
+handled via a token retrieved by \code{get_atri_token()}, and the
+target server endpoint is determined using \code{get_atri_server()}.
 }
 \examples{
 \dontrun{

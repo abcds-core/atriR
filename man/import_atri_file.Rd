@@ -7,32 +7,37 @@
 import_atri_file(study, files = NULL, pattern = NULL, url = NULL)
 }
 \arguments{
-\item{study}{The name of the study on the ATRI EDC for which data is requested.}
+\item{study}{The name of the study on the ATRI EDC for which
+data is requested.}
 
-\item{files}{A character vector of file paths from the ATRI EDC data lake,
-typically retrieved using \code{\link{get_atri_files}}. Default: \code{NULL}.}
+\item{files}{A character vector of file paths from the ATRI EDC
+data lake, typically retrieved using \code{\link{get_atri_files}}.
+Default: \code{NULL}.}
 
 \item{pattern}{Optional. A regular expression pattern to identify the
 appropriate CSV file within \code{files}. Default: \code{NULL}.}
 
-\item{url}{Optional. A link to the specific CSV file in the ATRI EDC data lake,
-typically retrieved using \code{\link{get_atri_files}}. Default: \code{NULL}.}
+\item{url}{Optional. A link to the specific CSV file in the ATRI EDC data
+lake, typically retrieved using \code{\link{get_atri_files}}.
+Default: \code{NULL}.}
 }
 \value{
-A \code{\link[tibble]{tibble}} containing the contents of the requested CSV file.
+A \code{\link[tibble]{tibble}} containing the contents of the requested
+CSV file.
 }
 \description{
-Reads a CSV file from the ATRI EDC API. The input can be provided either as:
+Reads a CSV file from the ATRI EDC API. The input can be
+provided either as:
 \itemize{
 \item a folder and filename (quoted or unquoted), or
 \item a URL as a character vector of length one.
 }
 }
 \details{
-The \code{import_atri_file()} function provides flexible access to ATRI EDC CSV
-files. Users can specify the file using a folder and filename combination or
-directly via a URL. The function will retrieve the file from the API and return
-it as a tibble for downstream analysis.
+The \code{import_atri_file()} function provides flexible access to ATRI EDC
+CSV files. Users can specify the file using a folder and filename
+combination or directly via a URL. The function will retrieve the file
+from the API and return it as a tibble for downstream analysis.
 }
 \examples{
 \dontrun{

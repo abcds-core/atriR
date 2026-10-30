@@ -11,24 +11,27 @@ split_factor_labels(data, variable, dictionary = NULL, delim = "|")
 
 \item{variable}{The variable in \code{data} to split (unquoted).}
 
-\item{dictionary}{A list containing the levels and labels for the variable, Default: NULL.}
+\item{dictionary}{A list containing the levels and labels for
+the variable, Default: NULL.}
 
-\item{delim}{A character string used to separate multiple values in the variable.
-Default: \code{"|"}.}
+\item{delim}{A character string used to separate multiple
+values in the variable. Default: \code{"|"}.}
 }
 \value{
-A data frame with the original data and additional columns for each level of
-the split factor, coded as 0/1.
+A data frame with the original data and additional columns
+for each level of the split factor, coded as 0/1.
 }
 \description{
-Converts a variable containing multiple coded values separated by a delimiter
-into separate binary columns for each level using a dictionary.
+Converts a variable containing multiple coded values
+separated by a delimiter into separate binary columns
+for each level using a dictionary.
 }
 \details{
-This function is useful for handling variables that allow multiple selections
-(e.g., race, comorbidities). It splits the values, converts them to factors
-according to a dictionary, creates binary indicator columns, and joins them
-back to the original data.
+This function is useful for handling variables that allow
+multiple selections (e.g., race, comorbidities). It splits
+the values, converts them to factors according to a dictionary,
+creates binary indicator columns, and joins them back to the
+original data.
 }
 \examples{
 \dontrun{

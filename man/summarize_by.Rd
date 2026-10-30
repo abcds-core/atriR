@@ -12,7 +12,8 @@ summarize_by(
 )
 }
 \arguments{
-\item{data}{A data frame or tibble containing the variable and grouping columns.}
+\item{data}{A data frame or tibble containing the variable and
+grouping columns.}
 
 \item{variable}{The numeric variable to summarize (unquoted).}
 
@@ -34,9 +35,10 @@ categorical variables. Supports common statistics including mean, median,
 standard deviation, minimum, and maximum.
 }
 \details{
-The function constructs a formula of the form \code{variable ~ group1 + group2 + ...}
-and applies each requested statistic using \code{stats::aggregate}. Results
-are then merged together using \code{atri_join} to produce a single tibble.
+The function constructs a formula of the form
+\code{variable ~ group1 + group2 + ...} and applies each requested
+statistic using \code{stats::aggregate}. Results are then merged
+together using \code{atri_join} to produce a single tibble.
 }
 \examples{
 \dontrun{

@@ -23,7 +23,7 @@ get_atri_token <- function(study) {
   study <- rlang::ensym(study)
   env_var <- retrieve_from_environment(study, type = "token")
   token <- Sys.getenv(env_var)
-  return(sprintf("Token %s", token))
+  sprintf("Token %s", token)
 }
 
 #' @title Retrieve ATRI Server Path
@@ -49,7 +49,9 @@ get_atri_token <- function(study) {
 #' that access ATRI EDC data.
 #'
 #' @seealso
-#'  \code{\link[rlang]{ensyms}}, \code{\link[rlang]{as_string}}, \code{\link[purrr]{map}}
+#'  \code{\link[rlang]{ensyms}},
+#'  \code{\link[rlang]{as_string}},
+#'  \code{\link[purrr]{map}}
 #'
 #' @rdname get_atri_server
 #' @keywords internal
@@ -91,17 +93,16 @@ get_atri_server <- function(study, ...) {
 #'
 #' @rdname atri_get
 #' @keywords internal
-#' @import magrittr
 #' @importFrom httr2 request req_headers req_perform
 
 atri_get <- function(server, token) {
-  response <- httr2::request(server) %>%
+  response <- httr2::request(server) |>
     httr2::req_headers(
       Authorization = token
-    ) %>%
+    ) |>
     httr2::req_perform()
-  isXLSX <- grepl(".xlsx$", basename(server))
-  return(get_atri_data(response, xlsx = isXLSX))
+  is_xlsx <- grepl(".xlsx$", basename(server))
+  get_atri_data(response, xlsx = is_xlsx)
 }
 
 
@@ -113,22 +114,24 @@ atri_get <- function(server, token) {
 #' (for CSV/structured data).
 #'
 #' @param response A response object returned by an \code{httr2} request.
-#' @param xlsx A boolean value indicating whether the file to be read is xlsx, Default: FALSE
+#' @param xlsx A boolean value indicating whether the file to be
+#'   read is xlsx, Default: FALSE
 #'
 #' @return
 #' Either a character vector containing folder or file names, or a
-#' \code{\link[tibble]{tibble}} containing the parsed contents of the requested
-#' file.
+#' \code{\link[tibble]{tibble}} containing the parsed contents of the
+#' requested file.
 #'
 #' @details
-#' This function inspects the API response using \code{\link[httr2]{resp_status}}
-#' and \code{\link[httr2]{resp_content_type}}.
+#' This function inspects the API response using
+#' \code{\link[httr2]{resp_status}} and \code{\link[httr2]{resp_content_type}}.
 #' - If the response indicates folders or files, a character vector is returned.
 #' - If the response contains CSV or structured data, it is read into a tibble
 #'   using \code{\link[readr]{read_csv}}.
 #'
 #' The function includes checks for empty responses and provides informative
-#' error messages using \code{\link[cli]{cli_abort}} and \code{\link[glue]{glue}}.
+#' error messages using \code{\link[cli]{cli_abort}} and
+#' \code{\link[glue]{glue}}.
 #'
 #' @seealso
 #'  \code{\link[httr2]{resp_status}},
@@ -142,7 +145,8 @@ atri_get <- function(server, token) {
 #'
 #' @rdname get_atri_data
 #' @keywords internal
-#' @importFrom httr2 resp_status resp_body_string resp_content_type resp_status_desc
+#' @importFrom httr2 resp_status resp_body_string
+#' @importFrom httr2 resp_content_type resp_status_desc
 #' @importFrom jsonlite fromJSON
 #' @importFrom readr read_csv
 #' @importFrom rlang is_empty
@@ -199,28 +203,32 @@ get_atri_data <- function(response, xlsx = FALSE) {
 #' @title Retrieve ATRI EDC File Links
 #'
 #' @description
-#' Retrieves API links for folders and files stored in the ATRI EDC for a given study,
-#' optionally navigating through additional subfolders.
+#' Retrieves API links for folders and files stored in the ATRI EDC for
+#' a given study, optionally navigating through additional subfolders.
 #'
-#' @param study A symbol or string identifying the study (e.g., `abcds`, `trcds`,
-#'   `test_trcds`). Used to retrieve the appropriate API token and server.
+#' @param study A symbol or string identifying the study (e.g., `abcds`,
+#'   `trcds`, `test_trcds`). Used to retrieve the appropriate API token
+#'   and server.
 #' @param topic A symbol or string identifying the ATRI storage topic
 #'   (e.g., `s3_archive`, `s3_topic`, `topics`).
 #' @param topic_code A symbol or string identifying the specific topic code
-#'   within the ATRI system (e.g., `data_lake`, `data_pond_brain_health_report`).
+#'   within the ATRI system (e.g., `data_lake`,
+#'   `data_pond_brain_health_report`).
 #' @param ... Additional subfolders or path segments appended to the server path
 #'   to locate specific files.
 #' @param site A character string specifying the site code associated with the
 #'   uploaded file.
 #'
 #' @return
-#' A character vector containing API links to the folders or files stored in the ATRI EDC.
+#' A character vector containing API links to the folders or files stored
+#' in the ATRI EDC.
 #'
 #' @details
-#' The \code{get_atri_files()} function constructs API links by combining the base
-#' server path for a study (retrieved via \code{\link{get_atri_server}}) with any
-#' additional folder or file path components provided via \code{...}. These links
-#' can then be used to retrieve data from the ATRI EDC using \code{\link{import_atri_file}}.
+#' The \code{get_atri_files()} function constructs API links by combining
+#' the base server path for a study (retrieved via
+#' \code{\link{get_atri_server}}) with any additional folder or file path
+#' components provided via \code{...}. These links can then be used to
+#' retrieve data from the ATRI EDC using \code{\link{import_atri_file}}.
 #'
 #' @seealso
 #'  \code{\link[rlang]{ensym}},
@@ -270,39 +278,44 @@ get_atri_files <- function(study, topic, topic_code, ..., site = NULL) {
     data <- memoise_atri_get(server, token)
   }
 
-  return(data)
+  data
 }
 
 #' Upload a file to the ATRI API
 #'
-#' Uploads a file to the ATRI server for a specified study, topic, and site using
-#' a multipart POST request. The function retrieves the appropriate API token and
-#' server endpoint based on the supplied study and topic information, then uploads
-#' the file with associated metadata.
+#' Uploads a file to the ATRI server for a specified study, topic,
+#' and site using a multipart POST request. The function retrieves
+#' the appropriate API token and server endpoint based on the
+#' supplied study and topic information, then uploads the file
+#' with associated metadata.
 #'
-#' @param study A symbol or string identifying the study (e.g., `abcds`, `trcds`,
-#'   `test_trcds`). Used to retrieve the appropriate API token and server.
+#' @param study A symbol or string identifying the study (e.g., `abcds`,
+#'   `trcds`, `test_trcds`). Used to retrieve the appropriate API token
+#'   and server.
 #' @param topic A symbol or string identifying the ATRI storage topic
 #'   (e.g., `s3_archive`, `s3_topic`, `topics`).
 #' @param topic_code A symbol or string identifying the specific topic code
-#'   within the ATRI system (e.g., `data_lake`, `data_pond_brain_health_report`).
+#'   within the ATRI system (e.g., `data_lake`,
+#'   `data_pond_brain_health_report`).
 #' @param site A character string specifying the site code associated with the
 #'   uploaded file.
-#' @param label A short character string used as the file label in the ATRI system.
-#' @param description A character string providing a longer description of the file.
-#' @param source_file A file path to the file to be uploaded. The file is uploaded
-#'   as a multipart form field. Currently assumed to be a PDF.
+#' @param label A short character string used as the file label in the
+#'   ATRI system.
+#' @param description A character string providing a longer description
+#'   of the file.
+#' @param source_file A file path to the file to be uploaded. The file
+#'   is uploaded as a multipart form field. Currently assumed to be a PDF.
 #'
 #' @return An HTTP response object returned by \pkg{httr2} from
 #'   \code{httr2::req_perform()}. This object contains the server response and
 #'   status information for the upload request.
 #'
 #' @details
-#' This function constructs a multipart POST request using \pkg{httr2}. The file
-#' is uploaded using \code{curl::form_file()} and sent along with metadata fields
-#' required by the ATRI API. Authentication is handled via a token retrieved by
-#' \code{get_atri_token()}, and the target server endpoint is determined using
-#' \code{get_atri_server()}.
+#' This function constructs a multipart POST request using \pkg{httr2}.
+#' The file is uploaded using \code{curl::form_file()} and sent along
+#' with metadata fields required by the ATRI API. Authentication is
+#' handled via a token retrieved by \code{get_atri_token()}, and the
+#' target server endpoint is determined using \code{get_atri_server()}.
 #'
 #' @examples
 #' \dontrun{
@@ -334,12 +347,12 @@ post_atri_files <- function(
   description,
   source_file
 ) {
-  # abcds, trcds, test_trcds
+  # abcds-trcds-test_trcds
   study <- rlang::ensym(study)
   token <- get_atri_token(!!study)
-  # s3_archive, s3_topic, topics
+  # s3_archive-s3_topic-topics
   topic <- rlang::ensym(topic)
-  # data_lake, data_pond_brain_health_report, transfer-kansas-brain-health-report
+  # data_lake-data_pond_brain_health_report-transfer-kansas-brain-health-report
   topic_code <- rlang::ensym(topic_code)
 
   # Check for existing file
@@ -350,12 +363,12 @@ post_atri_files <- function(
       existing[["code"]][indx]
     },
     error = function(e) {
-      return(NULL)
+      NULL
     }
   )
 
   if (!rlang::is_empty(code)) {
-    server <- get_atri_server(!!study, files, !!code)
+    server <- get_atri_server(!!study, "files", !!code)
     message(server)
     body <- list(
       topic_code = as.character(topic_code),
@@ -365,7 +378,7 @@ post_atri_files <- function(
       reason_for_change = "Adding an Updated Form"
     )
   } else {
-    server <- get_atri_server(!!study, !!topic, !!topic_code, files)
+    server <- get_atri_server(!!study, !!topic, !!topic_code, "files")
     message(server)
     body <- list(
       topic_code = as.character(topic_code),
@@ -378,41 +391,46 @@ post_atri_files <- function(
 
   server <- sprintf("%s?site_code=%s", server, site)
 
-  response <- httr2::request(server) %>%
+  response <- httr2::request(server) |>
     httr2::req_headers(
       Authorization = token
-    ) %>%
-    httr2::req_body_multipart(!!!body) %>%
+    ) |>
+    httr2::req_body_multipart(!!!body) |>
     httr2::req_perform()
 
-  return(response)
+  response
 }
 
 #' @title Import a CSV File from the ATRI EDC
 #'
 #' @description
-#' Reads a CSV file from the ATRI EDC API. The input can be provided either as:
+#' Reads a CSV file from the ATRI EDC API. The input can be
+#' provided either as:
 #' \itemize{
 #'   \item a folder and filename (quoted or unquoted), or
 #'   \item a URL as a character vector of length one.
 #' }
 #'
-#' @param study The name of the study on the ATRI EDC for which data is requested.
-#' @param files A character vector of file paths from the ATRI EDC data lake,
-#'   typically retrieved using \code{\link{get_atri_files}}. Default: \code{NULL}.
+#' @param study The name of the study on the ATRI EDC for which
+#'   data is requested.
+#' @param files A character vector of file paths from the ATRI EDC
+#'   data lake, typically retrieved using \code{\link{get_atri_files}}.
+#'   Default: \code{NULL}.
 #' @param pattern Optional. A regular expression pattern to identify the
 #'   appropriate CSV file within \code{files}. Default: \code{NULL}.
-#' @param url Optional. A link to the specific CSV file in the ATRI EDC data lake,
-#'   typically retrieved using \code{\link{get_atri_files}}. Default: \code{NULL}.
+#' @param url Optional. A link to the specific CSV file in the ATRI EDC data
+#'   lake, typically retrieved using \code{\link{get_atri_files}}.
+#'   Default: \code{NULL}.
 #'
 #' @return
-#' A \code{\link[tibble]{tibble}} containing the contents of the requested CSV file.
+#' A \code{\link[tibble]{tibble}} containing the contents of the requested
+#'   CSV file.
 #'
 #' @details
-#' The \code{import_atri_file()} function provides flexible access to ATRI EDC CSV
-#' files. Users can specify the file using a folder and filename combination or
-#' directly via a URL. The function will retrieve the file from the API and return
-#' it as a tibble for downstream analysis.
+#' The \code{import_atri_file()} function provides flexible access to ATRI EDC
+#' CSV files. Users can specify the file using a folder and filename
+#' combination or directly via a URL. The function will retrieve the file
+#' from the API and return it as a tibble for downstream analysis.
 #'
 #' @examples
 #' \dontrun{
@@ -443,7 +461,7 @@ import_atri_file <- function(
   pattern <- try(rlang::ensym(pattern), silent = TRUE)
   if (!is.null(url)) {
     server <- url
-  } else if (!is.null(files) & !is.null(pattern)) {
+  } else if (!is.null(files) && !is.null(pattern)) {
     indx <- which(sub("_.*|.csv$|.xlsx$", "", basename(files)) == pattern)
     if (length(indx) == 0) {
       indx <- which(sub(".csv$|.xlsx$", "", basename(files)) == pattern)
@@ -475,10 +493,13 @@ import_atri_file <- function(
 #' the ATRI API.
 #'
 #' @param study Unquoted study name (e.g., \code{abcds}, \code{trcds}).
-#' @param topic Unquoted topic name (e.g., \code{s3_archive}, \code{s3_topic}, \code{topics}).
-#' @param topic_code Unquoted topic code (e.g., \code{data_lake}, \code{data_pond_brain_health_report}).
+#' @param topic Unquoted topic name (e.g., \code{s3_archive}, \code{s3_topic},
+#'   \code{topics}).
+#' @param topic_code Unquoted topic code (e.g., \code{data_lake},
+#'   \code{data_pond_brain_health_report}).
 #' @param site Character string indicating the site code.
 #' @param label Character string specifying the file label to delete.
+#' @param reason_for_trash Reason for removing the file
 #'
 #' @details
 #' This function:
@@ -486,7 +507,8 @@ import_atri_file <- function(
 #'   \item Retrieves an API token using \code{get_atri_token()}.
 #'   \item Queries existing files via \code{get_atri_files()}.
 #'   \item Matches the provided \code{label} to identify the file code.
-#'   \item Constructs the appropriate ATRI API endpoint using \code{get_atri_server()}.
+#'   \item Constructs the appropriate ATRI API endpoint using
+#'     \code{get_atri_server()}.
 #'   \item Sends a DELETE request using \pkg{httr2}.
 #' }
 #'
@@ -519,12 +541,12 @@ delete_atri_files <- function(
   label,
   reason_for_trash = "Report is no longer needed"
 ) {
-  # abcds, trcds, test_trcds
+  # abcds-trcds-test_trcds
   study <- rlang::ensym(study)
   token <- get_atri_token(!!study)
-  # s3_archive, s3_topic, topics
+  # s3_archive-s3_topic-topics
   topic <- rlang::ensym(topic)
-  # data_lake, data_pond_brain_health_report, transfer-kansas-brain-health-report
+  # data_lake-data_pond_brain_health_report-transfer-kansas-brain-health-report
   topic_code <- rlang::ensym(topic_code)
 
   # Check for existing file
@@ -535,12 +557,12 @@ delete_atri_files <- function(
       existing[["code"]][indx]
     },
     error = function(e) {
-      return(NULL)
+      NULL
     }
   )
 
   if (!rlang::is_empty(code)) {
-    server <- get_atri_server(!!study, files, !!code, delete)
+    server <- get_atri_server(!!study, "files", !!code, "delete")
     message(server)
     body <- list(
       topic_code = as.character(topic_code),
@@ -551,12 +573,12 @@ delete_atri_files <- function(
   }
 
   response <-
-    httr2::request(server) %>%
-    httr2::req_method("DELETE") %>%
+    httr2::request(server) |>
+    httr2::req_method("DELETE") |>
     httr2::req_headers(
       Authorization = token
-    ) %>%
-    httr2::req_body_json(body) %>%
+    ) |>
+    httr2::req_body_json(body) |>
     httr2::req_perform()
 
   return(response)

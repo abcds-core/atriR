@@ -15,14 +15,14 @@ get_disclosure(
 \item{study}{Character string indicating which study's ATRI EDC data to pull.
 Valid options are \code{"abcds"} and \code{"trcds"}.}
 
-\item{site}{An optional site code or name used to filter the demographic data;
-defaults to \code{NULL}, returning all sites.}
+\item{site}{An optional site code or name used to filter the demographic
+data; defaults to \code{NULL}, returning all sites.}
 
 \item{cycle}{An optional study cycle identifier used to filter the data;
 defaults to \code{NULL}, returning all cycles.}
 
-\item{apply_labels}{Logical. Whether to apply variable and factor labels from
-the ABC-DS data dictionary. Defaults to \code{FALSE}.}
+\item{apply_labels}{Logical. Whether to apply variable and factor labels
+from the ABC-DS data dictionary. Defaults to \code{FALSE}.}
 }
 \value{
 A \code{\link[tibble]{tibble}} containing selected disclosure variables,
@@ -34,9 +34,10 @@ Retrieves variables needed for the BRIDGE21 Down syndrome
 disclosure report from the ATRI Electronic Data Capture system
 }
 \details{
-The \code{get_disclosure()} function simplifies extraction of participant-level
-data being disclosed in the BRIDGE21 report. Users can limit results by site or
-cycle, and automatically attach human-readable labels using
+The \code{get_disclosure()} function simplifies extraction of
+participant-level data being disclosed in the BRIDGE21 report.
+Users can limit results by site or cycle, and automatically
+attach human-readable labels using
 \code{\link{apply_labels}} and \code{\link{apply_factor_labels}}.
 }
 \seealso{

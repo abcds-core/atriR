@@ -1,10 +1,14 @@
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
 #' @param ... One or more unquoted variable names to retrieve from the dataset.
-#' @param site Optional; a site identifier or vector of site codes to subset data by site. Default is `NULL`.
-#' @param cycle Optional; a cycle identifier or vector of cycles to subset data by cycle. Default is `NULL`.
-#' @param apply_labels Logical; if `TRUE`, applies variable labels from the codebook to the returned data. Default is `FALSE`.
-#' @param controls A boolean value that indicates whether the function should return the controls, Default is `FALSE`
+#' @param site Optional; a site identifier or vector of site codes to
+#'   subset data by site. Default is `NULL`.
+#' @param cycle Optional; a cycle identifier or vector of cycles to
+#'   subset data by cycle. Default is `NULL`.
+#' @param apply_labels Logical; if `TRUE`, applies variable labels from the
+#'   codebook to the returned data. Default is `FALSE`.
+#' @param controls A boolean value that indicates whether the function
+#'   should return the controls, Default is `FALSE`
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @seealso

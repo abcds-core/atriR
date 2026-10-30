@@ -10,11 +10,11 @@ apply_labels(data, study, codebook)
 \item{data}{A dataset existing in the user's global environment for which
 to apply variable labels.}
 
-\item{study}{A symbol or unquoted name of the study on the ATRI EDC from which
-to request the codebook.}
+\item{study}{A symbol or unquoted name of the study on the ATRI EDC from
+which to request the codebook.}
 
-\item{codebook}{A symbol or unquoted name of the codebook within the specified
-study to request.}
+\item{codebook}{A symbol or unquoted name of the codebook within the
+specified study to request.}
 }
 \value{
 A data frame identical to the input dataset, but with variable-level
@@ -27,9 +27,9 @@ ABC-DS (Alzheimer’s Biomarker Consortium–Down Syndrome) data dictionary
 retrieved from the ATRI EDC system.
 }
 \details{
-This function uses \code{\link{get_codebook}} to retrieve the specified study’s
-data dictionary from the ATRI EDC and applies the descriptive field labels
-to variables in the dataset.
+This function uses \code{\link{get_codebook}} to retrieve the
+specified study’s data dictionary from the ATRI EDC and applies
+the descriptive field labels to variables in the dataset.
 }
 \examples{
 \dontrun{

@@ -15,27 +15,34 @@ get_karyotype(
 \arguments{
 \item{...}{One or more unquoted variable names to retrieve from the dataset.}
 
-\item{site}{Optional; a site identifier or vector of site codes to subset data by site. Default is \code{NULL}.}
+\item{site}{Optional; a site identifier or vector of site codes to
+subset data by site. Default is \code{NULL}.}
 
-\item{cycle}{Optional; a cycle identifier or vector of cycles to subset data by cycle. Default is \code{NULL}.}
+\item{cycle}{Optional; a cycle identifier or vector of cycles to
+subset data by cycle. Default is \code{NULL}.}
 
-\item{apply_labels}{Logical; if \code{TRUE}, applies variable labels from the codebook to the returned data. Default is \code{FALSE}.}
+\item{apply_labels}{Logical; if \code{TRUE}, applies variable labels from the
+codebook to the returned data. Default is \code{FALSE}.}
 
-\item{controls}{A boolean value that indicates whether the function should return the controls, Default is \code{FALSE}}
+\item{controls}{A boolean value that indicates whether the function
+should return the controls, Default is \code{FALSE}}
 }
 \value{
-A data frame containing the selected variables and any applied filters (site and/or cycle).
-If \code{apply_labels = TRUE}, variable labels are attached to the output as attributes.
+A data frame containing the selected variables and any applied
+filters (site and/or cycle). If \code{apply_labels = TRUE}, variable
+labels are attached to the output as attributes.
 }
 \description{
-Extracts one or more karyotype variable from an ABC-DS dataset using the specified
-codebook. The function supports optional filtering by site and cycle and allows applying
+Extracts one or more karyotype variable from an ABC-DS
+dataset using the specified codebook. The function supports
+optional filtering by site and cycle and allows applying
 variable labels for enhanced interpretability.
 }
 \details{
 This function provides a convenient wrapper around get_data
-to streamline access to ABC-DS health variables. Quasiquotation is used to support
-tidy evaluation, allowing unquoted variable names and symbol references.
+to streamline access to ABC-DS health variables. Quasiquotation is
+used to support tidy evaluation, allowing unquoted variable names
+and symbol references.
 }
 \examples{
 \dontrun{
@@ -49,7 +56,6 @@ if (interactive()) {
   )
 }
 }
-
 
 }
 \seealso{

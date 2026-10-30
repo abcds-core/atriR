@@ -15,21 +15,23 @@ get_imaging(
 )
 }
 \arguments{
-\item{...}{One or more unquoted variable names to select from the imaging dataset.}
+\item{...}{One or more unquoted variable names to select from the
+imaging dataset.}
 
-\item{study}{Character string indicating which study's ATRI EDC data to pull.
-Valid options are \code{"abcds"} and \code{"trcds"}.}
+\item{study}{Character string indicating which study's ATRI EDC data
+to pull. Valid options are \code{"abcds"} and \code{"trcds"}.}
 
-\item{site}{Optional. A site code, site initials, or partial site label to filter
-the dataset. Defaults to \code{NULL}, returning all sites.}
+\item{site}{Optional. A site code, site initials, or partial site
+label to filter the dataset. Defaults to \code{NULL}, returning all sites.}
 
 \item{cycle}{Optional. A numeric cycle or month value to filter the dataset.
 Defaults to \code{NULL}, returning all cycles.}
 
-\item{apply_labels}{Logical. Whether to apply variable and factor labels from
-the ABC-DS data dictionary. Defaults to \code{FALSE}.}
+\item{apply_labels}{Logical. Whether to apply variable and factor labels
+from the ABC-DS data dictionary. Defaults to \code{FALSE}.}
 
-\item{controls}{A boolean value that indicates whether the function should return the controls, Default is \code{FALSE}}
+\item{controls}{A boolean value that indicates whether the function should
+return the controls, Default is \code{FALSE}}
 
 \item{imaging}{Character. The imaging dataset to retrieve. Must be one of
 \code{"amymeta"}, \code{"fdgmeta"}, or \code{"mrimeta"}. Defaults to
@@ -51,14 +53,16 @@ variable and factor labels.
 The \code{get_imaging()} function simplifies retrieval of imaging metadata
 for ABC-DS participants. It performs the following steps:
 \enumerate{
-\item Imports the selected imaging dataset from ATRI EDC using \code{import_atri_file}.
+\item Imports the selected imaging dataset from ATRI EDC using
+\code{import_atri_file}.
 \item Filters the dataset for the requested variables, site, and cycle.
-\item Reshapes the dataset from long to wide format with one row per participant.
+\item Reshapes the dataset from long to wide format with one row
+per participant.
 \item Optionally applies labels using \code{\link{apply_labels}}.
 }
-The function supports multiple imaging datasets (\code{"amymeta"}, \code{"fdgmeta"},
-\code{"mrimeta"}) and ensures that the resulting data is ready for analysis or
-merging with other ABC-DS datasets.
+The function supports multiple imaging datasets (\code{"amymeta"},
+\code{"fdgmeta"}, \code{"mrimeta"}) and ensures that the resulting
+data is ready for analysis or merging with other ABC-DS datasets.
 }
 \examples{
 \dontrun{

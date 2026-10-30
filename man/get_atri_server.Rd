@@ -29,6 +29,8 @@ provided via \code{...}. It is intended for internal use by other functions
 that access ATRI EDC data.
 }
 \seealso{
-\code{\link[rlang]{ensyms}}, \code{\link[rlang]{as_string}}, \code{\link[purrr]{map}}
+\code{\link[rlang]{ensyms}},
+\code{\link[rlang]{as_string}},
+\code{\link[purrr]{map}}
 }
 \keyword{internal}

@@ -10,8 +10,9 @@ apply_factor_labels(data, dictionary)
 \item{data}{A dataset existing in the user's global environment for which
 to apply factor labels.}
 
-\item{dictionary}{A data dictionary (e.g., returned by \code{\link{get_codebook}})
-from the ATRI EDC containing the field names and coded values.}
+\item{dictionary}{A data dictionary (e.g., returned by
+\code{\link{get_codebook}}) from the ATRI EDC containing the
+field names and coded values.}
 }
 \value{
 A data frame in which coded character or numeric variables are converted

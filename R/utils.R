@@ -1,18 +1,19 @@
 #' @title Collapse a Character Vector with 'and'
 #'
 #' @description
-#' Collapses a character vector of two or more values into a single string,
-#' inserting 'and' before the last element and using an Oxford comma if necessary.
+#' Collapses a character vector of two or more values into a
+#' single string, inserting 'and' before the last element and
+#' using an Oxford comma if necessary.
 #'
 #' @param x A character vector of one or more values to collapse.
 #'
 #' @return
-#' A single character string with the elements of \code{x} separated by commas
-#' and 'and' before the last element.
+#' A single character string with the elements of \code{x} separated
+#' by commas and 'and' before the last element.
 #'
 #' @details
-#' This function is useful for formatting lists in text output. For example,
-#' a vector \code{c("A", "B", "C")} will be collapsed as
+#' This function is useful for formatting lists in text output.
+#' For example, a vector \code{c("A", "B", "C")} will be collapsed as
 #' \code{"A, B, and C"}.
 #'
 #' @rdname collapse_and
@@ -38,21 +39,23 @@ collapse_and <- function(x) {
 #' @title JavaScript-Style If Operator
 #'
 #' @description
-#' A custom infix operator to replace \code{ifelse}, mimicking JavaScript's
-#' ternary operator when used in combination with \code{\%:\%}.
+#' A custom infix operator to replace \code{ifelse}, mimicking
+#' JavaScript's ternary operator when used in combination
+#' with \code{\%:\%}.
 #'
 #' @param test A logical condition of length one to evaluate.
 #' @param yes The value to return if \code{test} evaluates to \code{TRUE}.
 #'
 #' @return
-#' A list containing the condition and the value to return if the condition
-#' evaluates to \code{TRUE}. This is designed to be used with \code{\%:\%}
-#' to specify the \code{FALSE} case.
+#' A list containing the condition and the value to return if
+#' the condition evaluates to \code{TRUE}. This is designed to be
+#' used with \code{\%:\%} to specify the \code{FALSE} case.
 #'
 #' @details
 #' This operator provides a more readable, JavaScript-style conditional
-#' expression in R. Combined with \code{\%:\%}, it mimics the ternary operator
-#' (\code{condition ? value_if_true : value_if_false}) found in JavaScript.
+#' expression in R. Combined with \code{\%:\%}, it mimics the ternary
+#' operator (\code{condition ? value_if_true : value_if_false}) found
+#' in JavaScript.
 #'
 #' @examples
 #' \dontrun{
@@ -73,20 +76,23 @@ collapse_and <- function(x) {
 #' @title JavaScript-Style Else Operator
 #'
 #' @description
-#' A custom infix operator that works with \code{\%?\%} to mimic JavaScript's
-#' ternary operator, providing the value to return when the condition is \code{FALSE}.
+#' A custom infix operator that works with \code{\%?\%} to mimic
+#' JavaScript's ternary operator, providing the value to return
+#' when the condition is \code{FALSE}.
 #'
-#' @param lhs A list produced by \code{\%?\%}, containing the test condition and
-#'   the value to return if the condition evaluates to \code{TRUE}.
-#' @param no The value to return if the test condition evaluates to \code{FALSE}.
+#' @param lhs A list produced by \code{\%?\%}, containing the test
+#'   condition and the value to return if the condition evaluates
+#'   to \code{TRUE}.
+#' @param no The value to return if the test condition evaluates
+#'   to \code{FALSE}.
 #'
 #' @return
-#' Returns the value specified for \code{TRUE} if the condition evaluates to
-#' \code{TRUE}, otherwise returns the \code{FALSE} value.
+#' Returns the value specified for \code{TRUE} if the condition
+#' evaluates to \code{TRUE}, otherwise returns the \code{FALSE} value.
 #'
 #' @details
-#' Combined with \code{\%?\%}, this operator mimics the ternary operator in JavaScript:
-#' \code{condition ? value_if_true : value_if_false}.
+#' Combined with \code{\%?\%}, this operator mimics the ternary operator
+#' in JavaScript: \code{condition ? value_if_true : value_if_false}.
 #' Use \code{\%?\%} to specify the condition and true case, and \code{\%:\%}
 #' to specify the false case.
 #'
@@ -109,21 +115,24 @@ collapse_and <- function(x) {
 #' @title Retrieve ATRI Token or Server from Environment
 #'
 #' @description
-#' Attempts to locate the ATRI API token or server in a user's R environment
-#' based on the specified study.
+#' Attempts to locate the ATRI API token or server in a user's
+#' R environment based on the specified study.
 #'
-#' @param study The name of the study on the ATRI EDC for which data is requested.
-#' @param type The type of environment variable to return. Must be either
-#'   \code{"token"} or \code{"server"}. Default: \code{c("token", "server")}.
+#' @param study The name of the study on the ATRI EDC for which
+#'   data is requested.
+#' @param type The type of environment variable to return. Must
+#'   be either \code{"token"} or \code{"server"}.
+#'   Default: \code{c("token", "server")}.
 #'
 #' @return
-#' A character string containing the formatted name of the environment variable
-#' needed to access the ATRI API.
+#' A character string containing the formatted name of the
+#' environment variable needed to access the ATRI API.
 #'
 #' @details
-#' This function searches the user's R environment for the ATRI token or server
-#' associated with a given study. If the variable is not found, it will throw
-#' an informative error using \code{cli_abort}. Useful for programmatic access
+#' This function searches the user's R environment for the
+#' ATRI token or server associated with a given study. If the
+#' variable is not found, it will throw an informative error
+#' using \code{cli_abort}. Useful for programmatic access
 #' to ATRI API resources without hardcoding credentials.
 #'
 #' @seealso
@@ -154,7 +163,7 @@ retrieve_from_environment <- function(study, type = c("token", "server")) {
     cli::cli_abort(c(
       "x" = "No tokens found in the user's environment.",
       "i" = glue::glue("Add {study}_{type_pattern} to your user environment"),
-      "!" = "Use usethis::edit_r_environ to open your user environment to edit manually."
+      "!" = "Use usethis::edit_r_environ to open and edit manually."
     ))
   }
 
@@ -165,18 +174,22 @@ retrieve_from_environment <- function(study, type = c("token", "server")) {
 #' @title Convert Strings to Snake Case
 #'
 #' @description
-#' Converts a character string or vector of strings to \code{snake_case},
-#' replacing spaces, hyphens, and other non-alphanumeric characters with underscores.
+#' Converts a character string or vector of strings
+#' to \code{snake_case}, replacing spaces, hyphens,
+#' and other non-alphanumeric characters with underscores.
 #'
-#' @param x A single character string or a character vector to convert to \code{snake_case}.
+#' @param x A single character string or a character vector
+#'   to convert to \code{snake_case}.
 #'
 #' @return
-#' A character string or vector with all elements converted to \code{snake_case}.
+#' A character string or vector with all elements converted
+#' to \code{snake_case}.
 #'
 #' @details
-#' Useful for standardizing variable names, column names, or any text input
-#' to \code{snake_case}. The function replaces spaces, punctuation, and
-#' capital letters with underscores and lowercase letters.
+#' Useful for standardizing variable names, column names, or
+#' any text input to \code{snake_case}. The function replaces
+#' spaces, punctuation, and capital letters with underscores
+#' and lowercase letters.
 #'
 #' @examples
 #' \dontrun{
@@ -192,24 +205,27 @@ to_snake_case <- function(x) {
 #' @title Split Factor Labels into Binary Columns
 #'
 #' @description
-#' Converts a variable containing multiple coded values separated by a delimiter
-#' into separate binary columns for each level using a dictionary.
+#' Converts a variable containing multiple coded values
+#' separated by a delimiter into separate binary columns
+#' for each level using a dictionary.
 #'
 #' @param data A data frame containing the variable to split.
 #' @param variable The variable in \code{data} to split (unquoted).
-#' @param dictionary A list containing the levels and labels for the variable, Default: NULL.
-#' @param delim A character string used to separate multiple values in the variable.
-#'   Default: \code{"|"}.
+#' @param dictionary A list containing the levels and labels for
+#'   the variable, Default: NULL.
+#' @param delim A character string used to separate multiple
+#'   values in the variable. Default: \code{"|"}.
 #'
 #' @return
-#' A data frame with the original data and additional columns for each level of
-#' the split factor, coded as 0/1.
+#' A data frame with the original data and additional columns
+#' for each level of the split factor, coded as 0/1.
 #'
 #' @details
-#' This function is useful for handling variables that allow multiple selections
-#' (e.g., race, comorbidities). It splits the values, converts them to factors
-#' according to a dictionary, creates binary indicator columns, and joins them
-#' back to the original data.
+#' This function is useful for handling variables that allow
+#' multiple selections (e.g., race, comorbidities). It splits
+#' the values, converts them to factors according to a dictionary,
+#' creates binary indicator columns, and joins them back to the
+#' original data.
 #'
 #' @examples
 #' \dontrun{
@@ -254,10 +270,10 @@ split_factor_labels <- function(
   )
 
   original_data <-
-    data %>%
-    dplyr::group_by(dplyr::across(ids)) %>%
-    dplyr::summarise_all(sum) %>%
-    atri_join(x = original_data, y = ., by = ids, join_type = full_join)
+    data |>
+    dplyr::group_by(dplyr::across(ids)) |>
+    dplyr::summarise_all(sum) |>
+    atri_join(x = original_data, y = _, by = ids, join_type = dplyr::full_join)
 
   return(original_data)
 }
@@ -265,16 +281,18 @@ split_factor_labels <- function(
 #' @title Identify ID Columns
 #'
 #' @description
-#' Returns a vector of column names commonly used as identifiers in ABC-DS datasets.
+#' Returns a vector of column names commonly used as identifiers
+#' in ABC-DS datasets.
 #'
 #' @param data A data frame.
 #'
-#' @return A character vector of column names that are used as identifiers
-#'   (e.g., subject_label, site columns, event_label, or event_code).
+#' @return A character vector of column names that are used
+#' as identifiers (e.g., subject_label, site columns, event_label,
+#' or event_code).
 #'
 #' @details
-#' This helper function identifies the key ID columns in a dataset to be used
-#' for grouping, merging, or pivoting operations.
+#' This helper function identifies the key ID columns in a
+#' dataset to be used for grouping, merging, or pivoting operations.
 #'
 #' @examples
 #' \dontrun{
@@ -299,9 +317,9 @@ get_ids <- function(data) {
 #' @details DETAILS
 #' @examples
 #' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
+#' if (interactive()) {
+#'   # EXAMPLE1
+#' }
 #' }
 #' @seealso
 #'  \code{\link[glue]{glue}}
@@ -335,21 +353,30 @@ format_quarto <- function(x = NULL, type, width = 100) {
 #' @export
 
 get_sibling_controls <- function() {
-  # fmt: skip
-  files <- get_atri_files(abcds, s3_archive, data_lake, edc, crf_data_exclude_phi, latest)
-  data <- import_atri_file(abcds, files, control)
+  files <- get_atri_files(
+    "abcds",
+    "s3_archive",
+    "data_lake",
+    "edc",
+    "crf_data_exclude_phi",
+    "latest"
+  )
+  data <- import_atri_file("abcds", files, "control")
   sibling_control_identifiers <- data[
     data$dd_field_name == "sibptid1",
     "subject_label",
     drop = TRUE
   ]
-  return(sibling_control_identifiers)
+  sibling_control_identifiers
 }
 
-#' @title Add variables to the ABC-DS dataset located in the translated value column
-#' @description Add variables to the ABC-DS dataset located in the translated value column
+#' @title Add variables to the ABC-DS dataset located in the translated
+#'   value column
+#' @description Add variables to the ABC-DS dataset located in the
+#'   translated value column
 #' @return A tibble or data frame
-#' @details Add variables to the ABC-DS dataset located in the translated value column
+#' @details Add variables to the ABC-DS dataset located in the
+#'   translated value column
 #' @rdname add_translated_value
 #' @keywords internal
 
@@ -371,7 +398,7 @@ add_translated_value <- function(
       ]
     }
   }
-  return(data)
+  data
 }
 
 
@@ -389,9 +416,9 @@ atri_pivot_wider <- function(data, dataset) {
   duplicates <- c("mrimeta", "taumeta", "bloodcoll")
   safe_max <- function(x) {
     if (length(x[!is.na(x)]) == 0) {
-      return(NA_character_)
+      NA_character_
     } else {
-      return(as.character(max(x[!is.na(x)])))
+      as.character(max(x[!is.na(x)]))
     }
   }
 
@@ -399,8 +426,8 @@ atri_pivot_wider <- function(data, dataset) {
     data <- tidyr::pivot_wider(
       data,
       id_cols = dplyr::all_of(ids),
-      names_from = dd_field_name,
-      values_from = dd_revision_field_value,
+      names_from = .data$dd_field_name,
+      values_from = .data$dd_revision_field_value,
       values_fn = if (dataset %in% duplicates) safe_max else NULL
     )
   })
@@ -410,5 +437,5 @@ atri_pivot_wider <- function(data, dataset) {
   }
 
   class(data) <- custom_classes
-  return(data)
+  data
 }

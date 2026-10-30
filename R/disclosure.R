@@ -6,12 +6,12 @@
 #'
 #' @param study Character string indicating which study's ATRI EDC data to pull.
 #'   Valid options are `"abcds"` and `"trcds"`.
-#' @param site An optional site code or name used to filter the demographic data;
-#' defaults to \code{NULL}, returning all sites.
+#' @param site An optional site code or name used to filter the demographic
+#'   data; defaults to \code{NULL}, returning all sites.
 #' @param cycle An optional study cycle identifier used to filter the data;
 #' defaults to \code{NULL}, returning all cycles.
-#' @param apply_labels Logical. Whether to apply variable and factor labels from
-#' the ABC-DS data dictionary. Defaults to \code{FALSE}.
+#' @param apply_labels Logical. Whether to apply variable and factor labels
+#'   from the ABC-DS data dictionary. Defaults to \code{FALSE}.
 #'
 #' @return
 #' A \code{\link[tibble]{tibble}} containing selected disclosure variables,
@@ -19,9 +19,10 @@
 #' the variables will include descriptive labels and factor levels.
 
 #' @details
-#' The \code{get_disclosure()} function simplifies extraction of participant-level
-#' data being disclosed in the BRIDGE21 report. Users can limit results by site or
-#' cycle, and automatically attach human-readable labels using
+#' The \code{get_disclosure()} function simplifies extraction of
+#' participant-level data being disclosed in the BRIDGE21 report.
+#' Users can limit results by site or cycle, and automatically
+#' attach human-readable labels using
 #' \code{\link{apply_labels}} and \code{\link{apply_factor_labels}}.
 
 #' @seealso
@@ -104,50 +105,51 @@ get_disclosure <- function(
       dplyr::across(dplyr::all_of(key$exam), ~ as.numeric(.x))
     )
 
-  # ABC-DS and TRC-DS Codebook: Weight: 1 = Pounds, 2 = Kilograms; Height: 1 = Inches, 2 = Centimeters
+  # ABC-DS and TRC-DS Codebook: Weight: 1 = Pounds, 2 = Kilograms;
+  # Height: 1 = Inches, 2 = Centimeters
   convert_to_metric <- function(variable, unit, type = c("height", "weight")) {
     type <- match.arg(type)
     conversion_factor <- if (type == "height") 2.54 else 1 / 2.205
     ifelse(unit == 1 & !is.na(unit), variable * conversion_factor, variable)
   }
 
-  df_names <- c("demographics", "dsmse", "recall", "ntgedsd", "exam")
-
-  # fmt: skip
   if (study == "abcds") {
     exam$ht <- convert_to_metric(exam$ht, exam$htu, type = "height")
     exam$wt <- convert_to_metric(exam$wt, exam$wtu, type = "weight")
     exam$htu <- exam$wtu <- NULL
   } else if (study == "trcds") {
-    exam$vsheight <- convert_to_metric(exam$vsheight, exam$vshtunit, type = "height")
-    exam$vsweight <- convert_to_metric(exam$vsweight, exam$vswtunit, type = "weight")
+    exam$vsheight <- convert_to_metric(
+      exam$vsheight,
+      exam$vshtunit,
+      type = "height"
+    )
+    exam$vsweight <- convert_to_metric(
+      exam$vsweight,
+      exam$vswtunit,
+      type = "weight"
+    )
     exam$vshtunit <- exam$vswtunit <- NULL
+  }
+
+  df_names <- list(demographics, dsmse, recall, ntgedsd, exam)
+
+  if (study == "trcds") {
     centiloid <- get_imaging(study = "trcds", imaging = "amymeta")
-    df_names <- c(df_names, "centiloid")
+    df_names <- append(df_names, list(centiloid))
   }
 
   data <- purrr::reduce(
-    mget(df_names),
+    df_names,
     .f = atri_join,
-    join_type = full_join,
+    join_type = dplyr::full_join,
     by = ids
   )
 
-  all_vars <- key %>%
-    do.call("c", .) %>%
-    {
-      .[. %in% names(data)]
-    } %>%
-    as.character()
+  unlisted_key <- unname(unlist(key))
 
-  data %>%
-    dplyr::filter(!dplyr::if_all(all_of(all_vars), ~ is.na(.x))) %>%
+  all_vars <- unlisted_key[unlisted_key %in% names(data)]
+
+  data |>
+    dplyr::filter(!dplyr::if_all(all_of(all_vars), ~ is.na(.x))) |>
     dplyr::arrange(.data$subject_label, .data$event_code)
 }
-
-# devtools::load_all()
-# start <- Sys.time()
-# get_imaging(study = "trcds", imaging = "amymeta")
-# end <- Sys.time()
-# difftime(end, start)
-# data <- get_disclosure(study = "trcds")

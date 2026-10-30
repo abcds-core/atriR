@@ -15,12 +15,14 @@ authenticating with the ATRI EDC API.}
 }
 \value{
 A memoised function. When called, it behaves like \code{atri_get()}, but
-subsequent calls with the same arguments will retrieve results from the cache.
+subsequent calls with the same arguments will retrieve results
+from the cache.
 }
 \description{
-A memoised version of \code{atri_get()} that caches results from ATRI API calls.
-This allows repeated queries with identical arguments to return instantly from
-cache, reducing redundant API requests and improving performance.
+A memoised version of \code{atri_get()} that caches results from
+ATRI API calls. This allows repeated queries with identical arguments
+to return instantly from cache, reducing redundant API requests and
+improving performance.
 }
 \details{
 The memoisation is implemented using the \pkg{memoise} package.

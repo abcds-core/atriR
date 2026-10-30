@@ -7,27 +7,30 @@
 filter_by_cycle(data, cycle)
 }
 \arguments{
-\item{data}{A data frame containing ABC-DS study data with an \code{event_label}
-column in the format "Cycle X - Month Y".}
+\item{data}{A data frame containing ABC-DS study data with
+an \code{event_label} column in the format "Cycle X - Month Y".}
 
-\item{cycle}{A numeric value corresponding to a cycle number or month. If the
-cycle is not recognized, all rows are returned with a message.}
+\item{cycle}{A numeric value corresponding to a cycle number or month.
+If the cycle is not recognized, all rows are returned with a message.}
 }
 \value{
-A filtered \code{data.frame} or \code{\link[tibble]{tibble}} containing only
-rows corresponding to the specified cycle or month.
+A filtered \code{data.frame} or \code{\link[tibble]{tibble}} containing
+only rows corresponding to the specified cycle or month.
 }
 \description{
-Filters a dataset to include only rows corresponding to a specific study cycle
-or month. The function supports numeric cycles and months based on the
-\code{event_label} column (format: "Cycle X - Month Y").
+Filters a dataset to include only rows corresponding to a specific
+study  cycle or month. The function supports numeric cycles and
+months based on the \code{event_label} column (format:
+"Cycle X - Month Y").
 }
 \details{
-The function parses the \code{event_label} column to extract the cycle and month
-numbers. It then filters the dataset based on the provided \code{cycle} argument:
+The function parses the \code{event_label} column to extract the cycle
+and month numbers. It then filters the dataset based on the provided
+\code{cycle} argument:
 \itemize{
 \item If \code{cycle} matches a cycle number, it filters by "Cycle X".
-\item If \code{cycle} is a multiple of 16 and matches a month, it filters by "Month Y".
+\item If \code{cycle} is a multiple of 16 and matches a month, it
+filters by "Month Y".
 }
 If the specified cycle or month is not recognized, the function returns the
 full dataset and prints a message.

@@ -14,33 +14,38 @@ lhs \%:\% no
 
 \item{yes}{The value to return if \code{test} evaluates to \code{TRUE}.}
 
-\item{lhs}{A list produced by \code{\%?\%}, containing the test condition and
-the value to return if the condition evaluates to \code{TRUE}.}
+\item{lhs}{A list produced by \code{\%?\%}, containing the test
+condition and the value to return if the condition evaluates
+to \code{TRUE}.}
 
-\item{no}{The value to return if the test condition evaluates to \code{FALSE}.}
+\item{no}{The value to return if the test condition evaluates
+to \code{FALSE}.}
 }
 \value{
-A list containing the condition and the value to return if the condition
-evaluates to \code{TRUE}. This is designed to be used with \code{\%:\%}
-to specify the \code{FALSE} case.
+A list containing the condition and the value to return if
+the condition evaluates to \code{TRUE}. This is designed to be
+used with \code{\%:\%} to specify the \code{FALSE} case.
 
-Returns the value specified for \code{TRUE} if the condition evaluates to
-\code{TRUE}, otherwise returns the \code{FALSE} value.
+Returns the value specified for \code{TRUE} if the condition
+evaluates to \code{TRUE}, otherwise returns the \code{FALSE} value.
 }
 \description{
-A custom infix operator to replace \code{ifelse}, mimicking JavaScript's
-ternary operator when used in combination with \code{\%:\%}.
+A custom infix operator to replace \code{ifelse}, mimicking
+JavaScript's ternary operator when used in combination
+with \code{\%:\%}.
 
-A custom infix operator that works with \code{\%?\%} to mimic JavaScript's
-ternary operator, providing the value to return when the condition is \code{FALSE}.
+A custom infix operator that works with \code{\%?\%} to mimic
+JavaScript's ternary operator, providing the value to return
+when the condition is \code{FALSE}.
 }
 \details{
 This operator provides a more readable, JavaScript-style conditional
-expression in R. Combined with \code{\%:\%}, it mimics the ternary operator
-(\code{condition ? value_if_true : value_if_false}) found in JavaScript.
+expression in R. Combined with \code{\%:\%}, it mimics the ternary
+operator (\code{condition ? value_if_true : value_if_false}) found
+in JavaScript.
 
-Combined with \code{\%?\%}, this operator mimics the ternary operator in JavaScript:
-\code{condition ? value_if_true : value_if_false}.
+Combined with \code{\%?\%}, this operator mimics the ternary operator
+in JavaScript: \code{condition ? value_if_true : value_if_false}.
 Use \code{\%?\%} to specify the condition and true case, and \code{\%:\%}
 to specify the false case.
 }

@@ -13,11 +13,11 @@ get_demographics(
 )
 }
 \arguments{
-\item{...}{One or more unquoted variable names to select from the demographics
-dataset.}
+\item{...}{One or more unquoted variable names to select from the
+demographics dataset.}
 
-\item{site}{An optional site code or name used to filter the demographic data;
-defaults to \code{NULL}, returning all sites.}
+\item{site}{An optional site code or name used to filter the demographic
+data; defaults to \code{NULL}, returning all sites.}
 
 \item{cycle}{An optional study cycle identifier used to filter the data;
 defaults to \code{NULL}, returning all cycles.}
@@ -25,7 +25,8 @@ defaults to \code{NULL}, returning all cycles.}
 \item{apply_labels}{Logical. Whether to apply variable and factor labels from
 the ABC-DS data dictionary. Defaults to \code{FALSE}.}
 
-\item{controls}{A boolean value that indicates whether the function should return the controls, Default: FALSE}
+\item{controls}{A boolean value that indicates whether the function
+should return the controls, Default: FALSE}
 }
 \value{
 A \code{\link[tibble]{tibble}} containing selected demographic variables,
@@ -38,19 +39,21 @@ Electronic Data Capture (EDC) system and returns a clean, labeled dataset
 optionally filtered by site or study cycle.
 }
 \details{
-The \code{get_demographics()} function simplifies extraction of participant-level
-demographic data for ABC-DS analyses. Users can specify particular variables of
-interest, optionally limit results by site or cycle, and automatically attach
-human-readable labels using \code{\link{apply_labels}} and
+The \code{get_demographics()} function simplifies extraction of
+participant-level demographic data for ABC-DS analyses. Users
+can specify particular variables of interest, optionally limit
+results by site or cycle, and automatically attach human-readable
+labels using \code{\link{apply_labels}} and
 \code{\link{apply_factor_labels}}.
 
-If \code{age_at_visit} is among the requested variables, the function will
-automatically compute age at visit based on the participant’s year of birth
-and evaluation date (\code{de_eval_date}). This ensures accurate age
-calculation even when the variable is not explicitly stored in the dataset.
+If \code{age_at_visit} is among the requested variables, the
+function will automatically compute age at visit based on the
+participant’s year of birth and evaluation date (\code{de_eval_date}).
+This ensures accurate age calculation even when the variable is not
+explicitly stored in the dataset.
 
-Internally, the function uses \pkg{purrr} for functional mapping and reshapes
-the data with \pkg{tidyr} as needed for analysis-ready output.
+Internally, the function uses \pkg{purrr} for functional mapping and
+reshapes the data with \pkg{tidyr} as needed for analysis-ready output.
 }
 \examples{
 \dontrun{

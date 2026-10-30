@@ -16,36 +16,46 @@ get_data(
 )
 }
 \arguments{
-\item{study}{Character string indicating which study's ATRI EDC data to pull.
-Valid options are \code{"abcds"} and \code{"trcds"}.}
+\item{study}{Character string indicating which study's
+ATRI EDC data to pull. Valid options are \code{"abcds"} and \code{"trcds"}.}
 
-\item{dataset}{A symbol or string specifying the dataset name within the ABC-DS data repository.}
+\item{dataset}{A symbol or string specifying the dataset name
+within the ABC-DS data repository.}
 
-\item{codebook}{A symbol or string specifying the corresponding codebook to use for metadata.}
+\item{codebook}{A symbol or string specifying the corresponding
+codebook to use for metadata.}
 
-\item{variables}{A character vector of variables to extract from the dataset}
+\item{variables}{A character vector of variables to extract
+from the dataset}
 
-\item{site}{Optional; a site identifier or vector of site codes to subset data by site. Default is \code{NULL}.}
+\item{site}{Optional; a site identifier or vector of site codes to
+subset data by site. Default is \code{NULL}.}
 
-\item{cycle}{Optional; a cycle identifier or vector of cycles to subset data by cycle. Default is \code{NULL}.}
+\item{cycle}{Optional; a cycle identifier or vector of cycles to
+subset data by cycle. Default is \code{NULL}.}
 
-\item{apply_labels}{Logical; if \code{TRUE}, applies variable labels from the codebook to the returned data. Default is \code{FALSE}.}
+\item{apply_labels}{Logical; if \code{TRUE}, applies variable labels from
+the codebook to the returned data. Default is \code{FALSE}.}
 
-\item{controls}{A boolean value that indicates whether the function should return the controls, Default is \code{FALSE}}
+\item{controls}{A boolean value that indicates whether the function
+should return the controls, Default is \code{FALSE}}
 }
 \value{
-A data frame containing the selected variables and any applied filters (site and/or cycle).
-If \code{apply_labels = TRUE}, variable labels are attached to the output as attributes.
+A data frame containing the selected variables and any applied
+filters (site and/or cycle). If \code{apply_labels = TRUE}, variable
+labels are attached to the output as attributes.
 }
 \description{
-Extracts one or more variables from an ABC-DS dataset using the specified
-codebook. The function supports optional filtering by site and cycle and allows applying
+Extracts one or more variables from an ABC-DS dataset
+using the specified codebook. The function supports
+optional filtering by site and cycle and allows applying
 variable labels for enhanced interpretability.
 }
 \details{
-Extracts one or more variables from an ABC-DS dataset using the specified
-codebook. The function supports optional filtering by site and cycle and allows applying
-variable labels for enhanced interpretability.
+Extracts one or more variables from an ABC-DS dataset using
+the specified codebook. The function supports optional filtering
+by site and cycle and allows applying variable labels for enhanced
+interpretability.
 }
 \seealso{
 \code{\link[rlang]{as_string}}, \code{\link[rlang]{defusing-advanced}}

@@ -16,13 +16,17 @@ delete_atri_files(
 \arguments{
 \item{study}{Unquoted study name (e.g., \code{abcds}, \code{trcds}).}
 
-\item{topic}{Unquoted topic name (e.g., \code{s3_archive}, \code{s3_topic}, \code{topics}).}
+\item{topic}{Unquoted topic name (e.g., \code{s3_archive}, \code{s3_topic},
+\code{topics}).}
 
-\item{topic_code}{Unquoted topic code (e.g., \code{data_lake}, \code{data_pond_brain_health_report}).}
+\item{topic_code}{Unquoted topic code (e.g., \code{data_lake},
+\code{data_pond_brain_health_report}).}
 
 \item{site}{Character string indicating the site code.}
 
 \item{label}{Character string specifying the file label to delete.}
+
+\item{reason_for_trash}{Reason for removing the file}
 }
 \value{
 An \code{httr2_response} object returned by \code{httr2::req_perform()}.
@@ -39,7 +43,8 @@ This function:
 \item Retrieves an API token using \code{get_atri_token()}.
 \item Queries existing files via \code{get_atri_files()}.
 \item Matches the provided \code{label} to identify the file code.
-\item Constructs the appropriate ATRI API endpoint using \code{get_atri_server()}.
+\item Constructs the appropriate ATRI API endpoint using
+\code{get_atri_server()}.
 \item Sends a DELETE request using \pkg{httr2}.
 }
 

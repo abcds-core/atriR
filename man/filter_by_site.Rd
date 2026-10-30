@@ -19,9 +19,9 @@ A filtered \code{data.frame} or \code{\link[tibble]{tibble}} containing only
 rows corresponding to the specified site.
 }
 \description{
-Filters a dataset to include only rows corresponding to a specific study site.
-The function accepts numeric site codes, character site initials, or partial
-site labels.
+Filters a dataset to include only rows corresponding to a specific study
+site. The function accepts numeric site codes, character site initials,
+or partial site labels.
 }
 \details{
 This function supports multiple ways of identifying a site:
@@ -30,8 +30,8 @@ This function supports multiple ways of identifying a site:
 \item Character site initials (\code{site_initials})
 \item Partial matches of the site label (\code{site_label})
 }
-If the specified site is not recognized, the function returns the full dataset
-and prints a message.
+If the specified site is not recognized, the function returns the full
+dataset and prints a message.
 }
 \examples{
 \dontrun{

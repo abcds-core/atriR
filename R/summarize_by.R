@@ -5,7 +5,8 @@
 #' categorical variables. Supports common statistics including mean, median,
 #' standard deviation, minimum, and maximum.
 #'
-#' @param data A data frame or tibble containing the variable and grouping columns.
+#' @param data A data frame or tibble containing the variable and
+#'   grouping columns.
 #' @param variable The numeric variable to summarize (unquoted).
 #' @param groups A character vector of column names to group by. Defaults to
 #'   \code{c("site_initials", "site_label", "event_label")}.
@@ -19,16 +20,16 @@
 #' \code{<stat>_<variable>}.
 #'
 #' @details
-#' The function constructs a formula of the form \code{variable ~ group1 + group2 + ...}
-#' and applies each requested statistic using \code{stats::aggregate}. Results
-#' are then merged together using \code{atri_join} to produce a single tibble.
+#' The function constructs a formula of the form
+#' \code{variable ~ group1 + group2 + ...} and applies each requested
+#' statistic using \code{stats::aggregate}. Results are then merged
+#' together using \code{atri_join} to produce a single tibble.
 #'
 #' @examples
 #' \dontrun{
 #' # Compute mean and sd of 'de_score' by site and event
 #' summarize_by(demo_data, variable = de_score, stats = c("mean", "sd"))
 #' }
-
 summarize_by <- function(
   data,
   variable = NULL,
@@ -56,7 +57,7 @@ summarize_by <- function(
         na.rm = TRUE
       )
       colnames(res)[ncol(res)] <- y
-      return(res)
+      res
     }
   )
 
@@ -65,7 +66,7 @@ summarize_by <- function(
       aggregated_data,
       atri_join,
       by = groups,
-      join_type = inner_join
+      join_type = dplyr::inner_join
     )
 
   return(tibble::as_tibble(aggregated_data_combined))

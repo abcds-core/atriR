@@ -8,32 +8,28 @@ Depends: R (>= 4.1.0)
 License: file LICENSE
 Imports:
   abcds, 
-  bhelselR,
+  cachem,
   cli,
   curl,
-  cachem,
-  dplyr,
   doParallel,
-  flextable,
+  dplyr,
   foreach,
   glue,
-  gt,
   httr2,
   jsonlite,
-  magrittr,
   memoise,
-  officer,
   openxlsx,
+  parallel, 
   plyr,
   purrr,
-  quarto,
   readr,
   readxl,
   rlang,
+  stats,
   tibble,
   tidyr,
   tools,
-  yaml
+  utils
 Remotes:
   bhelsel/bhelselR,
   bhelsel/abcds

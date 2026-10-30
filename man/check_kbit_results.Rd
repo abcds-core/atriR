@@ -22,11 +22,11 @@ differ. Columns are:
 Returns an empty tibble if all stored values match the recalculations.
 }
 \description{
-Validates KBIT-2 (Kaufman Brief Intelligence Test, 2nd Edition) scores stored
-in the database against recalculated values using
-\code{\link{calculate_kbit2_score}}. Retrieves raw scores and identifiers,
-recalculates derived scores, and returns rows where the stored and calculated
-values disagree.
+Validates KBIT-2 (Kaufman Brief Intelligence Test, 2nd Edition)
+scores stored in the database against recalculated values using
+\code{\link{calculate_kbit2_score}}. Retrieves raw scores and
+identifiers, recalculates derived scores, and returns rows
+where the stored and calculated values disagree.
 }
 \details{
 The function performs the following steps:

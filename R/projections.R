@@ -51,7 +51,7 @@
 #' )
 #' }
 #' @export
-#' @importFrom dplyr filter_out all_of mutate group_by summarise across where if_else
+#' @importFrom dplyr filter all_of mutate group_by summarise across where
 #' @importFrom tidyr pivot_longer pivot_wider
 
 get_demographic_projections <- function(
@@ -72,27 +72,37 @@ get_demographic_projections <- function(
   )
 
   # ── Pull & recode demographics ──────────────────────────────────────────────
-  # fmt: skip
-  demo_df <- get_demographics(!!!demo_vars, apply_labels = TRUE, controls = controls)
+
+  demo_df <- get_demographics(
+    !!!demo_vars,
+    apply_labels = TRUE,
+    controls = controls
+  )
 
   # Filter out missing values
   demo_df <- demo_df |>
     dplyr::filter(!dplyr::if_any(demo_vars, is.na), !!!dots)
 
-  # fmt: skip
-  demo_df$de_ethnicity <- factor(demo_df$de_ethnicity, levels = c("No", "Yes"), labels = c("Not Hispanic/Latino", "Hispanic/Latino"))
+  demo_df$de_ethnicity <- factor(
+    demo_df$de_ethnicity,
+    levels = c("No", "Yes"),
+    labels = c("Not Hispanic/Latino", "Hispanic/Latino")
+  )
 
   if (!any(demo_df$de_gender == "Other")) {
     demo_df$de_gender <- factor(demo_df$de_gender, levels = c("Female", "Male"))
   }
 
-  # ── Optionally drop LTFU subjects ───────────────────────────────────────────
+  # ── Optionally drop LTFU subjects ──────────────────────────────────────
   if (!include_ltfu) {
-    disp <- get_disposition(sdstatus, controls = controls)
-    demo_df <- dplyr::filter_out(demo_df, subject_label %in% disp$subject_label)
+    disp <- get_disposition("sdstatus", controls = controls)
+    demo_df <- dplyr::filter(
+      demo_df,
+      !.data$subject_label %in% disp$subject_label
+    )
   }
 
-  # ── Ensure all expected race columns exist ───────────────────────────────────
+  # ── Ensure all expected race columns exist ─────────────────────────────
   all_race_columns <- c(race_categories, "Other", "Unknown or Not Reported")
   missing_cols <- setdiff(all_race_columns, colnames(demo_df))
 
@@ -106,7 +116,7 @@ get_demographic_projections <- function(
 
   demo_df[demo_df[["More than One Race"]] == 1, race_categories] <- 0
 
-  # ── Summarise data ───────────────────────────────────────────────────────────
+  # ── Summarise data ────────────────────────────────────────
 
   demo_tbl <- demo_df |>
     tidyr::pivot_longer(
@@ -115,16 +125,16 @@ get_demographic_projections <- function(
     ) |>
     dplyr::mutate(
       Category = factor(
-        Category,
+        .data$Category,
         levels = c(all_race_columns, "More than One Race")
       )
     ) |>
-    dplyr::group_by(de_ethnicity, de_gender, Category) |>
-    dplyr::summarise(n = sum(value, na.rm = TRUE), .groups = "drop") |>
+    dplyr::group_by(.data$de_ethnicity, .data$de_gender, .data$Category) |>
+    dplyr::summarise(n = sum(.data$value, na.rm = TRUE), .groups = "drop") |>
     tidyr::pivot_wider(
-      names_from = c(de_ethnicity, de_gender),
+      names_from = c(.data$de_ethnicity, .data$de_gender),
       names_expand = TRUE,
-      values_from = n,
+      values_from = .data$n,
       values_fill = 0
     )
 
@@ -135,15 +145,23 @@ get_demographic_projections <- function(
     dplyr::mutate(
       dplyr::across(
         dplyr::where(is.numeric),
-        ~ dplyr::if_else(totals == 0, 0, round((.x / totals) * newtotals))
+        \(x) {
+          ifelse(totals == 0, 0, round((x / totals) * newtotals))
+        }
       )
     )
 
   add_totals <- function(x) {
     x$Totals <- rowSums(x[, sapply(x, is.numeric)])
     col_totals <- colSums(x[, sapply(x, is.numeric)])
-    # fmt: skip
-    rbind(x, cbind(Category = "Totals", as.data.frame(as.list(col_totals), check.names = FALSE)))
+
+    rbind(
+      x,
+      cbind(
+        Category = "Totals",
+        as.data.frame(as.list(col_totals), check.names = FALSE)
+      )
+    )
   }
 
   list(
@@ -151,58 +169,3 @@ get_demographic_projections <- function(
     Projected = add_totals(demo_tbl_adj)
   )
 }
-
-# all_participants <- atriR::get_demographic_projections(622)
-# all_controls <- atriR::get_demographic_projections(50, controls = TRUE)
-
-# # fmt: skip
-# ucam_participants <- atriR::get_demographic_projections(45, site_initials == "UCAM")
-# # fmt: skip
-# ucam_controls <- atriR::get_demographic_projections(6, site_initials == "UCAM", controls = TRUE)
-
-# # fmt: skip
-# all_minus_ucam_participants <- atriR::get_demographic_projections(620-45, site_initials != "UCAM")
-# # fmt: skip
-# all_minus_ucam_controls <- atriR::get_demographic_projections(50-5.5, site_initials != "UCAM")
-
-# create_table <- function(participants, controls) {
-#   #originals <- dplyr::bind_rows(participants$Original, controls$Original)
-#   projections <- dplyr::bind_rows(participants$Projected, controls$Projected)
-
-#   projections |>
-#     dplyr::mutate(
-#       Group = c(rep("Participants", 9), rep("Controls", 9)),
-#       Category = gsub("/.*British$", "", Category),
-#       # fmt: skip
-#       Category = ifelse(Category == "Black", "Black or African American", Category)
-#     ) |>
-#     flextable::as_grouped_data(groups = "Group") |>
-#     flextable::as_flextable(hide_grouplabel = TRUE) |>
-#     flextable::set_header_labels(
-#       values = c("", rep(c("Female", "Male"), 2), "Totals")
-#     ) |>
-#     flextable::add_header_row(
-#       values = c("", "Not Hispanic/Latino", "Hispanic/Latino", ""),
-#       colwidths = c(1, 2, 2, 1)
-#     ) |>
-#     atriR:::ft_add_abcds_theme(grouped_column = TRUE) |>
-#     flextable::width(j = 1, width = 3) |>
-#     flextable::width(j = 2:6, width = 1) |>
-#     flextable::bold(i = ~ is.na(Category)) |>
-#     flextable::padding(padding = 2) |>
-#     flextable::padding(i = ~ !is.na(Category), j = 1, padding.left = 10)
-# }
-
-# flextable::save_as_docx(
-#   create_table(all_participants, all_controls),
-#   create_table(ucam_participants, ucam_controls),
-#   create_table(all_minus_ucam_participants, all_minus_ucam_controls),
-#   path = "/Users/bhelsel/Desktop/projections.docx",
-#   pr_section = officer::prop_section(
-#     page_size = officer::page_size(
-#       orient = "landscape",
-#       width = 8.3,
-#       height = 11.7
-#     )
-#   )
-# )

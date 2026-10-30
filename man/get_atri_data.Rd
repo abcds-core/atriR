@@ -9,12 +9,13 @@ get_atri_data(response, xlsx = FALSE)
 \arguments{
 \item{response}{A response object returned by an \code{httr2} request.}
 
-\item{xlsx}{A boolean value indicating whether the file to be read is xlsx, Default: FALSE}
+\item{xlsx}{A boolean value indicating whether the file to be
+read is xlsx, Default: FALSE}
 }
 \value{
 Either a character vector containing folder or file names, or a
-\code{\link[tibble]{tibble}} containing the parsed contents of the requested
-file.
+\code{\link[tibble]{tibble}} containing the parsed contents of the
+requested file.
 }
 \description{
 Processes a response from the ATRI EDC API, checks its status, and returns
@@ -22,8 +23,8 @@ the contents as either a character vector (for folders/files) or a tibble
 (for CSV/structured data).
 }
 \details{
-This function inspects the API response using \code{\link[httr2]{resp_status}}
-and \code{\link[httr2]{resp_content_type}}.
+This function inspects the API response using
+\code{\link[httr2]{resp_status}} and \code{\link[httr2]{resp_content_type}}.
 \itemize{
 \item If the response indicates folders or files, a character vector is returned.
 \item If the response contains CSV or structured data, it is read into a tibble
@@ -31,7 +32,8 @@ using \code{\link[readr]{read_csv}}.
 }
 
 The function includes checks for empty responses and provides informative
-error messages using \code{\link[cli]{cli_abort}} and \code{\link[glue]{glue}}.
+error messages using \code{\link[cli]{cli_abort}} and
+\code{\link[glue]{glue}}.
 }
 \seealso{
 \code{\link[httr2]{resp_status}},

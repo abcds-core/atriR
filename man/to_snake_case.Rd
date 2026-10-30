@@ -7,19 +7,23 @@
 to_snake_case(x)
 }
 \arguments{
-\item{x}{A single character string or a character vector to convert to \code{snake_case}.}
+\item{x}{A single character string or a character vector
+to convert to \code{snake_case}.}
 }
 \value{
-A character string or vector with all elements converted to \code{snake_case}.
+A character string or vector with all elements converted
+to \code{snake_case}.
 }
 \description{
-Converts a character string or vector of strings to \code{snake_case},
-replacing spaces, hyphens, and other non-alphanumeric characters with underscores.
+Converts a character string or vector of strings
+to \code{snake_case}, replacing spaces, hyphens,
+and other non-alphanumeric characters with underscores.
 }
 \details{
-Useful for standardizing variable names, column names, or any text input
-to \code{snake_case}. The function replaces spaces, punctuation, and
-capital letters with underscores and lowercase letters.
+Useful for standardizing variable names, column names, or
+any text input to \code{snake_case}. The function replaces
+spaces, punctuation, and capital letters with underscores
+and lowercase letters.
 }
 \examples{
 \dontrun{

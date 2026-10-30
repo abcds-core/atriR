@@ -7,21 +7,23 @@
 calculate_age_at_visit(data, controls = FALSE)
 }
 \arguments{
-\item{data}{A dataset exported from the ATRI API for which to add an age_at_visit variable}
+\item{data}{A dataset exported from the ATRI API for which to
+add an age_at_visit variable}
 
-\item{controls}{A boolean value that indicates whether the function should return the controls, Default: FALSE}
+\item{controls}{A boolean value that indicates whether the function
+should return the controls, Default: FALSE}
 }
 \value{
-A data frame or \code{\link[tibble]{tibble}} with participant identifiers and
-their calculated age (in years) at the time of evaluation.
+A data frame or \code{\link[tibble]{tibble}} with participant identifiers
+and their calculated age (in years) at the time of evaluation.
 }
 \description{
-Calculates participant age at the time of evaluation based on year of birth
-and the evaluation date (\code{de_eval_date}).
+Calculates participant age at the time of evaluation based on
+year of birth and the evaluation date (\code{de_eval_date}).
 }
 \details{
-The \code{calculate_age_at_visit()} function computes age at the time of evaluation
-in years using the formula:
+The \code{calculate_age_at_visit()} function computes age at the time of
+evaluation in years using the formula:
 \deqn{age = year\_of\_evaluation - year\_of\_birth}
 }
 \examples{
@@ -29,7 +31,6 @@ in years using the formula:
 if (interactive()) {
   # Calculate age for all participants
   age_tbl <- get_demographics(de_eval_date) |> calculate_age_at_visit()
-
 }
 }
 

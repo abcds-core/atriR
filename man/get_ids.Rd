@@ -10,15 +10,17 @@ get_ids(data)
 \item{data}{A data frame.}
 }
 \value{
-A character vector of column names that are used as identifiers
-(e.g., subject_label, site columns, event_label, or event_code).
+A character vector of column names that are used
+as identifiers (e.g., subject_label, site columns, event_label,
+or event_code).
 }
 \description{
-Returns a vector of column names commonly used as identifiers in ABC-DS datasets.
+Returns a vector of column names commonly used as identifiers
+in ABC-DS datasets.
 }
 \details{
-This helper function identifies the key ID columns in a dataset to be used
-for grouping, merging, or pivoting operations.
+This helper function identifies the key ID columns in a
+dataset to be used for grouping, merging, or pivoting operations.
 }
 \examples{
 \dontrun{

@@ -1,28 +1,31 @@
-# devtools::document()
-# devtools::check()
-# devtools::install()
-# devtools::load_all()
-
 #' @title Retrieve KBIT2 IQ Variables from ABC-DS Data
 #' @description
-#' Extracts one or more IQ variables from an ABC-DS dataset using the specified
-#' codebook. The function supports optional filtering by site and cycle and allows applying
+#' Extracts one or more IQ variables from an ABC-DS dataset
+#' using the specified codebook. The function supports optional
+#' filtering by site and cycle and allows applying
 #' variable labels for enhanced interpretability.
 #'
-#' @param ... One or more unquoted variable names to retrieve from the dataset.
-#' @param site Optional; a site identifier or vector of site codes to subset data by site. Default is `NULL`.
-#' @param cycle Optional; a cycle identifier or vector of cycles to subset data by cycle. Default is `NULL`.
-#' @param apply_labels Logical; if `TRUE`, applies variable labels from the codebook to the returned data. Default is `FALSE`.
-#' @param controls A boolean value that indicates whether the function should return the controls, Default is `FALSE`
+#' @param ... One or more unquoted variable names to retrieve
+#'   from the dataset.
+#' @param site Optional; a site identifier or vector of site codes
+#'   to subset data by site. Default is `NULL`.
+#' @param cycle Optional; a cycle identifier or vector of cycles to
+#'   subset data by cycle. Default is `NULL`.
+#' @param apply_labels Logical; if `TRUE`, applies variable labels
+#'   from the codebook to the returned data. Default is `FALSE`.
+#' @param controls A boolean value that indicates whether the function
+#'   should return the controls, Default is `FALSE`
 #'
 #' @return
-#' A data frame containing the selected variables and any applied filters (site and/or cycle).
-#' If `apply_labels = TRUE`, variable labels are attached to the output as attributes.
+#' A data frame containing the selected variables and any applied
+#'   filters (site and/or cycle). If `apply_labels = TRUE`, variable
+#'   labels are attached to the output as attributes.
 #'
 #' @details
 #' This function provides a convenient wrapper around get_data
-#' to streamline access to ABC-DS IQ variables. Quasiquotation is used to support
-#' tidy evaluation, allowing unquoted variable names and symbol references.
+#' to streamline access to ABC-DS IQ variables. Quasiquotation is
+#' used to support tidy evaluation, allowing unquoted variable
+#' names and symbol references.
 #'
 #' @examples
 #' \dontrun{
@@ -69,11 +72,11 @@ get_iq <- function(
 #' Check KBIT-2 Score Calculations Against Database Values
 #'
 #' @description
-#' Validates KBIT-2 (Kaufman Brief Intelligence Test, 2nd Edition) scores stored
-#' in the database against recalculated values using
-#' \code{\link{calculate_kbit2_score}}. Retrieves raw scores and identifiers,
-#' recalculates derived scores, and returns rows where the stored and calculated
-#' values disagree.
+#' Validates KBIT-2 (Kaufman Brief Intelligence Test, 2nd Edition)
+#' scores stored in the database against recalculated values using
+#' \code{\link{calculate_kbit2_score}}. Retrieves raw scores and
+#' identifiers, recalculates derived scores, and returns rows
+#' where the stored and calculated values disagree.
 #'
 #' @details
 #' The function performs the following steps:
@@ -211,13 +214,19 @@ check_kbit_results <- function() {
 #' @param kbit2verbkraw Verbal Knowledge Raw Score
 #' @param kbit2ridraw Riddles Raw Score
 #' @param kbit2vnonvraw Nonverbal Raw Score
-#' @param subject_label A subject ID number is required if calculating multiple KBIT-2 scores, Default: NULL
-#' @param add_premorbid_id `r lifecycle::badge("experimental")` Add a premorbid intellectual disability level using only the KBIT-2 score.
-#'     This argument is currently set as FALSE for the default until the premorbid intellectual disability
-#'     calculation is better understood, Default: FALSE
-#' @param print_kbit Print the KBIT-2 results to the console if calculating a single KBIT-2 score, Default: TRUE
-#' @param doParallel Use parallel processing to speed up the calculation of multiple KBIT-2 scores, Default: TRUE
-#' @return A list containing the verbal and nonverbal standard scores, intelligent quotients,
+#' @param subject_label A subject ID number is required if calculating
+#'   multiple KBIT-2 scores, Default: NULL
+#' @param add_premorbid_id `r lifecycle::badge("experimental")` Add a
+#'     premorbid intellectual disability level using only the KBIT-2 score.
+#'     This argument is currently set as FALSE for the default until
+#'     the premorbid intellectual disability calculation is better
+#'     understood, Default: FALSE
+#' @param print_kbit Print the KBIT-2 results to the console if calculating a
+#'   single KBIT-2 score, Default: TRUE
+#' @param do_parallel Use parallel processing to speed up the calculation of
+#'   multiple KBIT-2 scores, Default: TRUE
+#' @return A list containing the verbal and nonverbal standard scores,
+#'   intelligent quotients, and age equivalent scores
 #' @details Calculates intelligence quotient and age equivalents from the
 #'     KBIT-2 score from look-up tables using the age of the participant and
 #'     their verbal and nonverbal scores.
@@ -239,7 +248,7 @@ calculate_kbit2_score <- function(
   subject_label = NULL,
   add_premorbid_id = FALSE,
   print_kbit = TRUE,
-  doParallel = TRUE
+  do_parallel = TRUE
 ) {
   files <- list.files(
     path = system.file("extdata", package = "atriR"),
@@ -251,9 +260,9 @@ calculate_kbit2_score <- function(
     load(f)
   }
 
-  if (length(kbit2verbkraw) > 1 & is.null(subject_label)) {
+  if (length(kbit2verbkraw) > 1 && is.null(subject_label)) {
     stop(
-      "A subject_label vector is required when calculating multiple KBIT-2 scores."
+      "A subject_label vector is required to calculate multiple KBIT-2 scores."
     )
   }
 
@@ -264,18 +273,18 @@ calculate_kbit2_score <- function(
     kbit2vnonvraw,
     subject_label
   ) {
-    #verbal <- nonverbal <- iq <- ae <- NULL
+    verbal <- nonverbal <- iq <- ae <- NULL
     # Calculate sum of standard scores
 
     kbit2verbraw <- kbit2verbkraw + kbit2ridraw
 
     verbstd <-
-      verbal %>%
+      verbal |>
       dplyr::filter(
         .data$min_age <= age_at_visit &
           .data$max_age >= age_at_visit &
           .data$raw_score == kbit2verbraw
-      ) %>%
+      ) |>
       dplyr::select(-c(.data$min_age, .data$max_age))
 
     kbit2verbstd <- verbstd$standard_score
@@ -283,12 +292,12 @@ calculate_kbit2_score <- function(
     kbit2verbstdpr <- verbstd$percentile_rank
 
     nonvbstd <-
-      nonverbal %>%
+      nonverbal |>
       dplyr::filter(
         .data$min_age <= age_at_visit &
           .data$max_age >= age_at_visit &
           .data$raw_score == kbit2vnonvraw
-      ) %>%
+      ) |>
       dplyr::select(-c(.data$min_age, .data$max_age))
 
     kbit2nonvbstd <- nonvbstd$standard_score
@@ -301,10 +310,13 @@ calculate_kbit2_score <- function(
 
     iqcomp <-
       expand_lookup(
-        data = subset(iq, min_age <= age_at_visit & max_age >= age_at_visit),
+        data = subset(
+          iq,
+          .data$min_age <= age_at_visit & .data$max_age >= age_at_visit
+        ),
         variable = "sum_of_standard_scores"
-      ) %>%
-      dplyr::filter(.data$sum_of_standard_scores == sumstd) %>%
+      ) |>
+      dplyr::filter(.data$sum_of_standard_scores == sumstd) |>
       dplyr::select(-c(.data$min_age, .data$max_age))
 
     kbit2iqcompstd <- iqcomp$standard_score
@@ -313,16 +325,16 @@ calculate_kbit2_score <- function(
 
     # Calculate age equivalent
     aenonvb <-
-      ae %>%
-      expand_lookup(variable = "nonverbal_raw_score") %>%
+      ae |>
+      expand_lookup(variable = "nonverbal_raw_score") |>
       dplyr::filter(.data$nonverbal_raw_score == kbit2vnonvraw)
 
     kbit2nonvbaey <- strsplit(aenonvb$age_equivalent, ":")[[1]][1]
     kbit2nonvbae <- strsplit(aenonvb$age_equivalent, ":")[[1]][2]
 
     aeverb <-
-      ae %>%
-      expand_lookup(variable = "verbal_raw_score") %>%
+      ae |>
+      expand_lookup(variable = "verbal_raw_score") |>
       dplyr::filter(.data$verbal_raw_score == kbit2verbraw)
 
     kbit2verbaey <- strsplit(aeverb$age_equivalent, ":")[[1]][1]
@@ -354,31 +366,19 @@ calculate_kbit2_score <- function(
       data <- cbind(subject_label, data)
     }
 
-    # if (add_premorbid_id) {
-    #   if (data$kbit2iqcompstd > 40) {
-    #     data$prefunclevel <- ifelse(data$kbit2iqcompstd >= 50, 1, 2)
-    #   } else if (data$kbit2iqcompstd == 40) {
-    #     data$prefunclevel <-
-    #       ifelse(
-    #         aenonvb$age_equivalent[1] %in%
-    #           c("< 4:0", "4:0") &
-    #           aeverb$age_equivalent[1] %in% c("< 4:0", "4:0"),
-    #         3,
-    #         2
-    #       )
-    #   }
-    # }
-    return(data)
+    data
   }
 
-  if (doParallel & length(kbit2verbkraw) > 1) {
+  if (do_parallel && length(kbit2verbkraw) > 1) {
     cores <- parallel::detectCores()
-    Ncores <- cores - 1
-    cl <- parallel::makeCluster(Ncores)
+    ncores <- cores - 1
+    cl <- parallel::makeCluster(ncores)
     doParallel::registerDoParallel(cl)
     `%dopar%` <- foreach::`%dopar%`
-    kbitres <-
-      foreach::foreach(i = 1:length(kbit2verbkraw), .packages = "abcds") %dopar%
+    kbitres <- foreach::foreach(
+      i = seq_along(kbit2verbkraw),
+      .packages = "abcds"
+    ) %dopar%
       {
         main_kbit2_calculator(
           age_at_visit[i],
@@ -387,12 +387,12 @@ calculate_kbit2_score <- function(
           kbit2vnonvraw[i],
           subject_label[i]
         )
-      } %>%
-      dplyr::bind_rows() %>%
+      } |>
+      dplyr::bind_rows() |>
       dplyr::arrange(.data$subject_label)
-  } else if (!doParallel & length(kbit2verbkraw) > 1) {
+  } else if (!do_parallel && length(kbit2verbkraw) > 1) {
     kbitres <- data.frame()
-    for (i in 1:length(kbit2verbkraw)) {
+    for (i in seq_along(kbit2verbkraw)) {
       cat("\r Processing data for ", subject_label[i])
       data <- main_kbit2_calculator(
         age_at_visit[i],
@@ -423,11 +423,14 @@ calculate_kbit2_score <- function(
 }
 
 #' @title expand_lookup
-#' @description Expands the look-up table in cases where there are ranges in the scores
+#' @description Expands the look-up table in cases where there
+#'   are ranges in the scores
 #' @param data The data set containing the variable with the ranges
-#' @param variable The variable containing the range as indicated by a dash between two numeric values
+#' @param variable The variable containing the range as indicated by a
+#'   dash between two numeric values
 #' @return The expanded look-up table with the variable in descending order
-#' @details Expands the look-up table in cases where there are ranges in the scores
+#' @details Expands the look-up table in cases where there are
+#'   ranges in the scores
 #' @seealso
 #'  \code{\link[rlang]{:=}}
 #'  \code{\link[tibble]{tibble}}
@@ -439,7 +442,7 @@ calculate_kbit2_score <- function(
 expand_lookup <- function(data, variable) {
   `:=` <- rlang::`:=`
 
-  lookupTable <-
+  look_up_table <-
     do.call(
       rbind,
       lapply(seq_along(data[[variable]]), FUN = function(i) {
@@ -458,5 +461,5 @@ expand_lookup <- function(data, variable) {
       })
     )
 
-  lookupTable[order(lookupTable[[variable]], decreasing = TRUE), ]
+  look_up_table[order(look_up_table[[variable]], decreasing = TRUE), ]
 }

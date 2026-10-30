@@ -7,17 +7,17 @@
 get_codebook(study, codebook)
 }
 \arguments{
-\item{study}{A symbol or unquoted name of the study on the ATRI EDC from which
-to request the codebook.}
+\item{study}{A symbol or unquoted name of the study on the ATRI EDC from
+which to request the codebook.}
 
-\item{codebook}{A symbol or unquoted name of the codebook within the specified
-study to request.}
+\item{codebook}{A symbol or unquoted name of the codebook within the
+specified study to request.}
 }
 \value{
 A data frame containing three columns:
 \describe{
 \item{field_name}{The name of the field or variable.}
-\item{field_question}{The English text of the survey question or field label.}
+\item{field_question}{The text of the survey question or field label.}
 \item{field_code}{The coded values or response options for the field.}
 }
 }
@@ -28,11 +28,12 @@ latest data dictionary, extracts key variable information, and returns a
 clean summary of field names, questions, and coded values.
 }
 \details{
-This function wraps calls to \code{import_atri_file()} and \code{get_atri_files()} to
-obtain the most recent version of a study’s data dictionary from the ATRI EDC.
-The returned data frame excludes duplicate rows and standardizes column names
-for downstream use. Both \code{study} and \code{codebook} arguments are treated as symbols,
-so they should be passed without quotes (e.g., \code{get_codebook(MY_STUDY, CODEBOOK_NAME)}).
+This function wraps calls to \code{import_atri_file()} and \code{get_atri_files()}
+to obtain the most recent version of a study’s data dictionary from
+the ATRI EDC. The returned data frame excludes duplicate rows and
+standardizes column names for downstream use. Both \code{study} and
+\code{codebook} arguments are treated as symbols, so they should be
+passed without quotes (e.g., \code{get_codebook(MY_STUDY, CODEBOOK_NAME)}).
 }
 \examples{
 \dontrun{
@@ -43,5 +44,6 @@ head(cb)
 
 }
 \seealso{
-\code{\link[rlang]{defusing-advanced}} for details on quasiquotation and symbol handling.
+\code{\link[rlang]{defusing-advanced}} for details on quasiquotation
+and symbol handling.
 }

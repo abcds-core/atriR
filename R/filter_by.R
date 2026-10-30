@@ -1,9 +1,9 @@
 #' @title Filter Dataset by Site
 #'
 #' @description
-#' Filters a dataset to include only rows corresponding to a specific study site.
-#' The function accepts numeric site codes, character site initials, or partial
-#' site labels.
+#' Filters a dataset to include only rows corresponding to a specific study
+#' site. The function accepts numeric site codes, character site initials,
+#' or partial site labels.
 #'
 #' @param data A data frame containing ABC-DS study data with site information
 #'   (columns: \code{site_code}, \code{site_initials}, \code{site_label}).
@@ -22,8 +22,8 @@
 #'   \item Character site initials (\code{site_initials})
 #'   \item Partial matches of the site label (\code{site_label})
 #' }
-#' If the specified site is not recognized, the function returns the full dataset
-#' and prints a message.
+#' If the specified site is not recognized, the function returns the full
+#' dataset and prints a message.
 #'
 #' @examples
 #' \dontrun{
@@ -41,12 +41,12 @@
 #' @export
 
 filter_by_site <- function(data, site) {
-  if (is.numeric(site) & (site %in% unique(data$site_code))) {
+  if (is.numeric(site) && (site %in% unique(data$site_code))) {
     # needs some adjusting as site_code is returning character due to leading 0
     data <- data[data$site_code == site, ]
-  } else if (is.character(site) & (site %in% unique(data$site_initials))) {
+  } else if (is.character(site) && (site %in% unique(data$site_initials))) {
     data <- data[data$site_initials == site, ]
-  } else if (is.character(site) & any(grepl(site, unique(data$site_label)))) {
+  } else if (is.character(site) && any(grepl(site, unique(data$site_label)))) {
     data <- data[grepl(site, data$site_label), ]
   } else {
     message(
@@ -55,31 +55,34 @@ filter_by_site <- function(data, site) {
       ". Returning all sites by default."
     )
   }
-  return(data)
+  data
 }
 
 #' @title Filter Dataset by Study Cycle or Month
 #'
 #' @description
-#' Filters a dataset to include only rows corresponding to a specific study cycle
-#' or month. The function supports numeric cycles and months based on the
-#' \code{event_label} column (format: "Cycle X - Month Y").
+#' Filters a dataset to include only rows corresponding to a specific
+#' study  cycle or month. The function supports numeric cycles and
+#' months based on the \code{event_label} column (format:
+#' "Cycle X - Month Y").
 #'
-#' @param data A data frame containing ABC-DS study data with an \code{event_label}
-#'   column in the format "Cycle X - Month Y".
-#' @param cycle A numeric value corresponding to a cycle number or month. If the
-#'   cycle is not recognized, all rows are returned with a message.
+#' @param data A data frame containing ABC-DS study data with
+#'   an \code{event_label} column in the format "Cycle X - Month Y".
+#' @param cycle A numeric value corresponding to a cycle number or month.
+#'   If the cycle is not recognized, all rows are returned with a message.
 #'
 #' @return
-#' A filtered \code{data.frame} or \code{\link[tibble]{tibble}} containing only
-#' rows corresponding to the specified cycle or month.
+#' A filtered \code{data.frame} or \code{\link[tibble]{tibble}} containing
+#' only rows corresponding to the specified cycle or month.
 #'
 #' @details
-#' The function parses the \code{event_label} column to extract the cycle and month
-#' numbers. It then filters the dataset based on the provided \code{cycle} argument:
+#' The function parses the \code{event_label} column to extract the cycle
+#' and month numbers. It then filters the dataset based on the provided
+#' \code{cycle} argument:
 #' \itemize{
 #'   \item If \code{cycle} matches a cycle number, it filters by "Cycle X".
-#'   \item If \code{cycle} is a multiple of 16 and matches a month, it filters by "Month Y".
+#'   \item If \code{cycle} is a multiple of 16 and matches a month, it
+#'     filters by "Month Y".
 #' }
 #' If the specified cycle or month is not recognized, the function returns the
 #' full dataset and prints a message.
@@ -113,7 +116,7 @@ filter_by_cycle <- function(data, cycle) {
     month_options_num <- as.numeric(gsub("Month ", "", month_options))
 
     if (is.numeric(cycle)) {
-      if (cycle %% 16 == 0 & cycle %in% month_options_num) {
+      if (cycle %% 16 == 0 && cycle %in% month_options_num) {
         data <- data[grepl(paste("Month", cycle), data$event_label), ]
       } else if (cycle %in% cycle_options_num) {
         data <- data[grepl(paste("Cycle", cycle), data$event_label), ]
@@ -149,5 +152,5 @@ filter_by_cycle <- function(data, cycle) {
     warning("Could not detect event_label format. Returning all data.")
   }
 
-  return(data)
+  data
 }

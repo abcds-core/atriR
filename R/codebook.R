@@ -6,28 +6,30 @@
 #' latest data dictionary, extracts key variable information, and returns a
 #' clean summary of field names, questions, and coded values.
 #'
-#' @param study A symbol or unquoted name of the study on the ATRI EDC from which
-#' to request the codebook.
-#' @param codebook A symbol or unquoted name of the codebook within the specified
-#' study to request.
+#' @param study A symbol or unquoted name of the study on the ATRI EDC from
+#'   which to request the codebook.
+#' @param codebook A symbol or unquoted name of the codebook within the
+#'   specified study to request.
 #'
 #' @return
 #' A data frame containing three columns:
 #' \describe{
 #'   \item{field_name}{The name of the field or variable.}
-#'   \item{field_question}{The English text of the survey question or field label.}
+#'   \item{field_question}{The text of the survey question or field label.}
 #'   \item{field_code}{The coded values or response options for the field.}
 #' }
 #'
 #' @details
-#' This function wraps calls to `import_atri_file()` and `get_atri_files()` to
-#' obtain the most recent version of a study’s data dictionary from the ATRI EDC.
-#' The returned data frame excludes duplicate rows and standardizes column names
-#' for downstream use. Both `study` and `codebook` arguments are treated as symbols,
-#' so they should be passed without quotes (e.g., `get_codebook(MY_STUDY, CODEBOOK_NAME)`).
+#' This function wraps calls to `import_atri_file()` and `get_atri_files()`
+#' to obtain the most recent version of a study’s data dictionary from
+#' the ATRI EDC. The returned data frame excludes duplicate rows and
+#' standardizes column names for downstream use. Both `study` and
+#' `codebook` arguments are treated as symbols, so they should be
+#' passed without quotes (e.g., `get_codebook(MY_STUDY, CODEBOOK_NAME)`).
 #'
 #' @seealso
-#'  \code{\link[rlang]{defusing-advanced}} for details on quasiquotation and symbol handling.
+#'  \code{\link[rlang]{defusing-advanced}} for details on quasiquotation
+#'   and symbol handling.
 #'
 #' @examples
 #' \dontrun{
@@ -45,13 +47,24 @@ get_codebook <- function(study, codebook) {
   codebook <- rlang::ensym(codebook)
 
   if (study == "abcds") {
-    # fmt: skip
-    files <- get_atri_files(abcds, s3_archive, data_lake, edc, data_dictionary, latest)
-    data_dict <- import_atri_file(abcds, files, !!codebook)
+    files <- get_atri_files(
+      "abcds",
+      "s3_archive",
+      "data_lake",
+      "edc",
+      "data_dictionary",
+      "latest"
+    )
+    data_dict <- import_atri_file("abcds", files, !!codebook)
   } else if (study == "trcds") {
-    # fmt: skip
-    files <- get_atri_files(trcds, s3_topic, data_pond_brain_health_report, "Clinical%20Data", data_dictionary)
-    data_dict <- import_atri_file(trcds, files, !!codebook)
+    files <- get_atri_files(
+      "trcds",
+      "s3_topic",
+      "data_pond_brain_health_report",
+      "Clinical%20Data",
+      "data_dictionary"
+    )
+    data_dict <- import_atri_file("trcds", files, !!codebook)
   }
 
   data_dict <- data.frame(
@@ -68,7 +81,7 @@ get_codebook <- function(study, codebook) {
     data_dict$field_question
   )
 
-  return(data_dict)
+  data_dict
 }
 
 #' @title Apply Variable Labels from the ABC-DS Data Dictionary
@@ -88,9 +101,9 @@ get_codebook <- function(study, codebook) {
 #' ABC-DS data dictionary.
 #'
 #' @details
-#' This function uses \code{\link{get_codebook}} to retrieve the specified study’s
-#' data dictionary from the ATRI EDC and applies the descriptive field labels
-#' to variables in the dataset.
+#' This function uses \code{\link{get_codebook}} to retrieve the
+#' specified study’s data dictionary from the ATRI EDC and applies
+#' the descriptive field labels to variables in the dataset.
 #'
 #' @seealso
 #'  \code{\link{get_codebook}},
@@ -116,7 +129,7 @@ apply_labels <- function(data, study, codebook) {
         data_dict$field_question[which(data_dict$field_name == i)]
     }
   }
-  return(data)
+  data
 }
 
 
@@ -128,8 +141,9 @@ apply_labels <- function(data, study, codebook) {
 #'
 #' @param data A dataset existing in the user's global environment for which
 #' to apply factor labels.
-#' @param dictionary A data dictionary (e.g., returned by \code{\link{get_codebook}})
-#' from the ATRI EDC containing the field names and coded values.
+#' @param dictionary A data dictionary (e.g., returned by
+#'   \code{\link{get_codebook}}) from the ATRI EDC containing the
+#'   field names and coded values.
 #'
 #' @return
 #' A data frame in which coded character or numeric variables are converted
@@ -170,8 +184,8 @@ apply_factor_labels <- function(data, dictionary) {
         error = \(e) NULL
       )
     }
-  ) %>%
-    `names<-`(., dictionary$field_name)
+  ) |>
+    stats::setNames(dictionary$field_name)
 
   dictionary <- purrr::compact(dictionary)
 
@@ -196,5 +210,5 @@ apply_factor_labels <- function(data, dictionary) {
     }
   }
 
-  return(data)
+  data
 }

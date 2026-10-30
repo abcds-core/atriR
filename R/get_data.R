@@ -1,28 +1,38 @@
 #' @title Retrieve Variables from ABC-DS Data
 
 #' @description
-#' Extracts one or more variables from an ABC-DS dataset using the specified
-#' codebook. The function supports optional filtering by site and cycle and allows applying
+#' Extracts one or more variables from an ABC-DS dataset
+#' using the specified codebook. The function supports
+#' optional filtering by site and cycle and allows applying
 #' variable labels for enhanced interpretability.
 
-#' @param study Character string indicating which study's ATRI EDC data to pull.
-#'   Valid options are `"abcds"` and `"trcds"`.
-#' @param dataset A symbol or string specifying the dataset name within the ABC-DS data repository.
-#' @param codebook A symbol or string specifying the corresponding codebook to use for metadata.
-#' @param variables A character vector of variables to extract from the dataset
-#' @param site Optional; a site identifier or vector of site codes to subset data by site. Default is `NULL`.
-#' @param cycle Optional; a cycle identifier or vector of cycles to subset data by cycle. Default is `NULL`.
-#' @param apply_labels Logical; if `TRUE`, applies variable labels from the codebook to the returned data. Default is `FALSE`.
-#' @param controls A boolean value that indicates whether the function should return the controls, Default is `FALSE`
+#' @param study Character string indicating which study's
+#'   ATRI EDC data to pull. Valid options are `"abcds"` and `"trcds"`.
+#' @param dataset A symbol or string specifying the dataset name
+#'   within the ABC-DS data repository.
+#' @param codebook A symbol or string specifying the corresponding
+#'   codebook to use for metadata.
+#' @param variables A character vector of variables to extract
+#'   from the dataset
+#' @param site Optional; a site identifier or vector of site codes to
+#'   subset data by site. Default is `NULL`.
+#' @param cycle Optional; a cycle identifier or vector of cycles to
+#'   subset data by cycle. Default is `NULL`.
+#' @param apply_labels Logical; if `TRUE`, applies variable labels from
+#'   the codebook to the returned data. Default is `FALSE`.
+#' @param controls A boolean value that indicates whether the function
+#'   should return the controls, Default is `FALSE`
 
 #' @return
-#' A data frame containing the selected variables and any applied filters (site and/or cycle).
-#' If `apply_labels = TRUE`, variable labels are attached to the output as attributes.
+#' A data frame containing the selected variables and any applied
+#' filters (site and/or cycle). If `apply_labels = TRUE`, variable
+#' labels are attached to the output as attributes.
 
 #' @details
-#' Extracts one or more variables from an ABC-DS dataset using the specified
-#' codebook. The function supports optional filtering by site and cycle and allows applying
-#' variable labels for enhanced interpretability.
+#' Extracts one or more variables from an ABC-DS dataset using
+#' the specified codebook. The function supports optional filtering
+#' by site and cycle and allows applying variable labels for enhanced
+#' interpretability.
 #'
 #' @seealso
 #'  \code{\link[rlang]{as_string}}, \code{\link[rlang]{defusing-advanced}}
@@ -48,13 +58,24 @@ get_data <- function(
   codebook <- rlang::as_string(rlang::enexpr(codebook))
 
   if (study == "abcds") {
-    # fmt: skip
-    files <- get_atri_files(abcds, s3_archive, data_lake, edc, crf_data_exclude_phi, latest)
-    data <- import_atri_file(abcds, files, !!dataset)
+    files <- get_atri_files(
+      "abcds",
+      "s3_archive",
+      "data_lake",
+      "edc",
+      "crf_data_exclude_phi",
+      "latest"
+    )
+    data <- import_atri_file("abcds", files, !!dataset)
   } else if (study == "trcds") {
-    # fmt: skip
-    files <- get_atri_files(trcds, s3_topic, data_pond_brain_health_report, "Clinical%20Data", crf_data)
-    data <- import_atri_file(trcds, files, !!dataset)
+    files <- get_atri_files(
+      "trcds",
+      "s3_topic",
+      "data_pond_brain_health_report",
+      "Clinical%20Data",
+      "crf_data"
+    )
+    data <- import_atri_file("trcds", files, !!dataset)
   }
 
   ids <- get_ids(data)
@@ -73,7 +94,7 @@ get_data <- function(
     if (!rlang::is_empty(variables)) {
       data <- data[data$dd_field_name %in% variables, ]
     } else {
-      cb <- get_codebook(abcds, !!codebook)
+      cb <- get_codebook("abcds", !!codebook)
       variables <- cb$field_name
       data <- data[data$dd_field_name %in% variables, ]
     }
@@ -100,8 +121,8 @@ get_data <- function(
   }
 
   # Only set up for abcds right now
-  if (study == "abcds" & apply_labels) {
-    data <- apply_labels(data, abcds, !!codebook)
+  if (study == "abcds" && apply_labels) {
+    data <- apply_labels(data, "abcds", !!codebook)
     variables <- c(variables, setdiff(colnames(data), c(ids, variables)))
   }
 

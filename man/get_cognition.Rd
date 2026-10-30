@@ -20,39 +20,43 @@ get_cognition(
 \item{study}{Character string indicating which study's ATRI EDC data to pull.
 Valid options are \code{"abcds"} and \code{"trcds"}.}
 
-\item{task}{Unquoted name of the cognition task to retrieve (e.g., \code{recall}, \code{dsmse}).
-Must match one of the known task identifiers listed in \code{.cognition_tasks}.}
+\item{task}{Unquoted name of the cognition task to retrieve
+(e.g., \code{recall}, \code{dsmse}). Must match one of the known task
+identifiers listed in \code{.cognition_tasks}.}
 
-\item{site}{Optional; a site identifier or vector of site codes to subset data by site. Default is \code{NULL}.}
+\item{site}{Optional; a site identifier or vector of site codes to subset
+data by site. Default is \code{NULL}.}
 
-\item{cycle}{Optional; a cycle identifier or vector of cycles to subset data by cycle. Default is \code{NULL}.}
+\item{cycle}{Optional; a cycle identifier or vector of cycles to subset data
+by cycle. Default is \code{NULL}.}
 
-\item{apply_labels}{Logical; if \code{TRUE}, applies variable labels from the codebook to the returned data. Default is \code{FALSE}.}
+\item{apply_labels}{Logical; if \code{TRUE}, applies variable labels from the
+codebook to the returned data. Default is \code{FALSE}.}
 
-\item{controls}{A boolean value that indicates whether the function should return the controls, Default is \code{FALSE}}
+\item{controls}{A boolean value that indicates whether the function should
+return the controls, Default is \code{FALSE}}
 }
 \value{
-A tibble containing the selected variables from the specified cognition dataset, filtered
-by \code{site} and/or \code{cycle} if provided.
+A tibble containing the selected variables from the specified cognition
+dataset, filtered by \code{site} and/or \code{cycle} if provided.
 }
 \description{
 Retrieves cognition-related data for a specified task (e.g., recall, dsmse)
-from the ABC-DS study dataset. The function automatically constructs the appropriate
-dataset and codebook names (e.g., \code{cogrecall}, \code{cogdsmse}) and optionally applies
-variable labels for readability.
+from the ABC-DS study dataset. The function automatically constructs
+the appropriate dataset and codebook names (e.g., \code{cogrecall}, \code{cogdsmse})
+and optionally applies variable labels for readability.
 }
 \details{
-This function validates the requested \code{task} against a known set of cognition task names
-defined in \code{.cognition_tasks}. If a partial match (e.g., \code{"block"}) corresponds to multiple
-tasks, the function prompts the user to be more specific. Once validated, the function
-constructs the dataset and codebook names (e.g., \code{"cogrecall"}) and passes them to
-\code{\link[=get_data]{get_data()}}.
+This function validates the requested \code{task} against a known set of cognition
+task names defined in \code{.cognition_tasks}. If a partial match (e.g.,
+\code{"block"}) corresponds to multiple tasks, the function prompts the user
+to be more specific. Once validated, the function constructs the dataset and
+codebook names (e.g., \code{"cogrecall"}) and passes them to \code{\link[=get_data]{get_data()}}.
 }
 \examples{
 \dontrun{
 # Retrieve reaction time and accuracy from the n-back task
 get_cognition(rt_mean, accuracy, task = nback)
-
 }
 
 }

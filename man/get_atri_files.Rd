@@ -7,14 +7,16 @@
 get_atri_files(study, topic, topic_code, ..., site = NULL)
 }
 \arguments{
-\item{study}{A symbol or string identifying the study (e.g., \code{abcds}, \code{trcds},
-\code{test_trcds}). Used to retrieve the appropriate API token and server.}
+\item{study}{A symbol or string identifying the study (e.g., \code{abcds},
+\code{trcds}, \code{test_trcds}). Used to retrieve the appropriate API token
+and server.}
 
 \item{topic}{A symbol or string identifying the ATRI storage topic
 (e.g., \code{s3_archive}, \code{s3_topic}, \code{topics}).}
 
 \item{topic_code}{A symbol or string identifying the specific topic code
-within the ATRI system (e.g., \code{data_lake}, \code{data_pond_brain_health_report}).}
+within the ATRI system (e.g., \code{data_lake},
+\code{data_pond_brain_health_report}).}
 
 \item{...}{Additional subfolders or path segments appended to the server path
 to locate specific files.}
@@ -23,17 +25,19 @@ to locate specific files.}
 uploaded file.}
 }
 \value{
-A character vector containing API links to the folders or files stored in the ATRI EDC.
+A character vector containing API links to the folders or files stored
+in the ATRI EDC.
 }
 \description{
-Retrieves API links for folders and files stored in the ATRI EDC for a given study,
-optionally navigating through additional subfolders.
+Retrieves API links for folders and files stored in the ATRI EDC for
+a given study, optionally navigating through additional subfolders.
 }
 \details{
-The \code{get_atri_files()} function constructs API links by combining the base
-server path for a study (retrieved via \code{\link{get_atri_server}}) with any
-additional folder or file path components provided via \code{...}. These links
-can then be used to retrieve data from the ATRI EDC using \code{\link{import_atri_file}}.
+The \code{get_atri_files()} function constructs API links by combining
+the base server path for a study (retrieved via
+\code{\link{get_atri_server}}) with any additional folder or file path
+components provided via \code{...}. These links can then be used to
+retrieve data from the ATRI EDC using \code{\link{import_atri_file}}.
 }
 \seealso{
 \code{\link[rlang]{ensym}},

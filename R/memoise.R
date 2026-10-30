@@ -1,14 +1,16 @@
 #' @title Memoised ATRI API Getter
 #' @description
-#' A memoised version of \code{atri_get()} that caches results from ATRI API calls.
-#' This allows repeated queries with identical arguments to return instantly from
-#' cache, reducing redundant API requests and improving performance.
+#' A memoised version of \code{atri_get()} that caches results from
+#' ATRI API calls. This allows repeated queries with identical arguments
+#' to return instantly from cache, reducing redundant API requests and
+#' improving performance.
 #'
 #' @inheritParams atri_get
 #'
 #' @return
 #' A memoised function. When called, it behaves like \code{atri_get()}, but
-#' subsequent calls with the same arguments will retrieve results from the cache.
+#' subsequent calls with the same arguments will retrieve results
+#' from the cache.
 #'
 #' @details
 #' The memoisation is implemented using the \pkg{memoise} package.

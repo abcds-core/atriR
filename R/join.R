@@ -1,21 +1,24 @@
 #' Harmonize and Join ATRI and LONI Study Data
 #'
-#' This function performs a full join between ATRI and LONI datasets, harmonizing
-#' variable types, filling missing variables, adding study and event identifiers,
-#' and resolving discrepancies using LONI as the reference standard.
+#' This function performs a full join between ATRI and LONI
+#' datasets, harmonizing variable types, filling missing variables,
+#' adding study and event identifiers, and resolving discrepancies
+#' using LONI as the reference standard.
 #'
-#' The join is performed at the participant–event level, with additional shared
-#' variables included to ensure consistency across data sources.
+#' The join is performed at the participant–event level, with
+#' additional shared variables included to ensure consistency
+#' across data sources.
 #'
-#' @param atri_data A data frame containing participant- or event-level data from
-#'   the ATRI source.
+#' @param atri_data A data frame containing participant- or
+#'   event-level data from the ATRI source.
 #'
-#' @param loni_data A data frame containing participant- or event-level data from
-#'   the LONI source. When discrepancies arise between ATRI and LONI values, LONI
-#'   values are retained.
+#' @param loni_data A data frame containing participant- or
+#'   event-level data from the LONI source. When discrepancies
+#'   arise between ATRI and LONI values, LONI values are retained.
 #'
-#' @param variables A character vector of variable names to retain or align across
-#'   datasets. (Currently reserved for future flexibility; not yet directly used.)
+#' @param variables A character vector of variable names to
+#'   retain or align across datasets. (Currently reserved for
+#'   future flexibility; not yet directly used.)
 #'
 #' @details
 #' The function proceeds through the following steps:
@@ -24,18 +27,20 @@
 #'     \code{subject_label} and \code{age_at_visit}).
 #'   \item Coerces mismatched variable types to character to ensure join
 #'     compatibility.
-#'   \item Ensures that all non-identifier ATRI variables exist in the LONI
-#'     dataset, creating default columns when necessary.
-#'   \item Adds standardized participant and event identifiers to the LONI data.
+#'   \item Ensures that all non-identifier ATRI variables exist in
+#'     the LONI dataset, creating default columns when necessary.
+#'   \item Adds standardized participant and event identifiers to
+#'     the LONI data.
 #'   \item Renames ATRI subject identifiers to match LONI conventions.
 #'   \item Performs a full join across participant ID, event code, and shared
 #'     variables.
-#'   \item Resolves duplicated columns (\code{.x}/\code{.y}) by prioritizing LONI
-#'     values.
+#'   \item Resolves duplicated columns (\code{.x}/\code{.y}) by prioritizing
+#'     LONI values.
 #'   \item Orders the result by participant ID and event sequence.
 #' }
 #'
-#' Event codes are returned as an ordered factor to preserve longitudinal ordering.
+#' Event codes are returned as an ordered factor to preserve
+#' longitudinal ordering.
 #'
 #' @return
 #' A data frame containing harmonized ATRI–LONI data with one row per
@@ -92,11 +97,15 @@ loni_join <- function(atri_data, loni_data, variables) {
   }
 
   # Add Participant and Event Identifiers
-  loni_data <- abcds::add_study_ids(loni_data, inner_join, subject_label)
+  loni_data <- abcds::add_study_ids(
+    loni_data,
+    dplyr::inner_join,
+    "subject_label"
+  )
   loni_data <- abcds::add_event_ids(
     loni_data,
-    inner_join,
-    subject_label,
+    dplyr::inner_join,
+    "subject_label",
     "event_sequence"
   )
 
@@ -113,7 +122,7 @@ loni_join <- function(atri_data, loni_data, variables) {
       "event_code",
       commonvars
     ),
-    join_type = full_join
+    join_type = dplyr::full_join
   )
 
   # Resolve discrepancies by using LONI data as the standard
@@ -133,7 +142,7 @@ loni_join <- function(atri_data, loni_data, variables) {
 
   colnames(joined_df) <- gsub("\\.x$", "", colnames(joined_df))
 
-  joined_df$event_code = factor(
+  joined_df$event_code <- factor(
     joined_df$event_code,
     levels = c("bl", "c2", "c3", "c4", "cyc1", "cyc2", "cyc3", "cyc4")
   )
@@ -150,14 +159,16 @@ loni_join <- function(atri_data, loni_data, variables) {
 #' @title Flexible Join for dplyr
 #'
 #' @description
-#' Performs a flexible join on two data frames using any \code{dplyr} join function
-#' specified by the user. Supports joins specified as a string, symbol, or function.
+#' Performs a flexible join on two data frames using any
+#' \code{dplyr} join function specified by the user. Supports
+#' joins specified as a string, symbol, or function.
 #'
 #' @inheritParams dplyr::full_join
 #' @param join_type The type of \code{dplyr} join to perform. Can be a string
 #'   (e.g., "inner_join"), a symbol (e.g., \code{inner_join}), or a function
 #'   (e.g., \code{dplyr::inner_join}).
-#' @param ... Additional arguments passed to the chosen \code{dplyr} join function.
+#' @param ... Additional arguments passed to the chosen \code{dplyr}
+#'   join function.
 #'
 #' @return
 #' A \code{\link[tibble]{tibble}} containing the joined data.

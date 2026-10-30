@@ -6,14 +6,16 @@
 \alias{atriR}
 \title{ATRI API Tools}
 \description{
-The \strong{ATRI API Tools} package provides a suite of helper functions for
-interacting with the ATRI EDC data lake API and managing study data.
-It supports authentication, file retrieval, importing, summarization, and
-standardized formatting of tables and reports.
+The \strong{ATRI API Tools} package provides a suite of helper
+functions for interacting with the ATRI EDC data lake API
+and managing study data. It supports authentication, file
+retrieval, importing, summarization, and standardized
+formatting of tables and reports.
 }
 \section{Environment and API Functions}{
 
-Functions for securely connecting to and retrieving data from the ATRI EDC.
+Functions for securely connecting to and retrieving
+data from the ATRI EDC.
 \itemize{
 \item \code{\link{get_atri_token}} — Retrieve the API token from the user's environment.
 \item \code{\link{get_atri_server}} — Build a formatted server URL for the ATRI data lake.
@@ -47,15 +49,6 @@ Functions for merging, summarizing, and retrieving study-specific data.
 }
 }
 
-\section{Table Formatting}{
-
-Functions to apply ABCDS themes to formatted tables for reports and outputs.
-\itemize{
-\item \code{\link{ft_add_abcds_theme}} — Apply ABCDS styling to flextables.
-\item \code{\link{gt_add_abcds_theme}} — Apply ABCDS styling to gt tables.
-}
-}
-
 \section{Utility Operators}{
 
 JavaScript-inspired conditional operators to simplify inline logic.
@@ -83,8 +76,6 @@ Brian Helsel (\email{bhelsel@kumc.edu})
 \itemize{
 \item \link[dplyr:join]{dplyr joins}
 \item \link[httr2:request]{httr2 request workflow}
-\item \link[flextable:flextable]{flextable formatting}
-\item \link[gt:gt]{gt tables}
 }
 }
 

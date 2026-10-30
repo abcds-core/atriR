@@ -1,12 +1,14 @@
 #' @title ATRI API Tools
 #' @description
-#' The **ATRI API Tools** package provides a suite of helper functions for
-#' interacting with the ATRI EDC data lake API and managing study data.
-#' It supports authentication, file retrieval, importing, summarization, and
-#' standardized formatting of tables and reports.
+#' The **ATRI API Tools** package provides a suite of helper
+#' functions for interacting with the ATRI EDC data lake API
+#' and managing study data. It supports authentication, file
+#' retrieval, importing, summarization, and standardized
+#' formatting of tables and reports.
 #'
 #' @section Environment and API Functions:
-#' Functions for securely connecting to and retrieving data from the ATRI EDC.
+#' Functions for securely connecting to and retrieving
+#' data from the ATRI EDC.
 #'
 #' - \code{\link{get_atri_token}} — Retrieve the API token from the user's environment.
 #' - \code{\link{get_atri_server}} — Build a formatted server URL for the ATRI data lake.
@@ -32,12 +34,6 @@
 #' - \code{\link{summarize_by}} — Compute grouped summary statistics (mean, median, sd, min, max).
 #' - \code{\link{get_imaging}} — Retrieve and reshape imaging metadata (amyloid PET, FDG, MRI).
 #'
-#' @section Table Formatting:
-#' Functions to apply ABCDS themes to formatted tables for reports and outputs.
-#'
-#' - \code{\link{ft_add_abcds_theme}} — Apply ABCDS styling to flextables.
-#' - \code{\link{gt_add_abcds_theme}} — Apply ABCDS styling to gt tables.
-#'
 #' @section Utility Operators:
 #' JavaScript-inspired conditional operators to simplify inline logic.
 #'
@@ -54,8 +50,6 @@
 #' @section See Also:
 #' - \link[dplyr:join]{dplyr joins}
 #' - \link[httr2:request]{httr2 request workflow}
-#' - \link[flextable:flextable]{flextable formatting}
-#' - \link[gt:gt]{gt tables}
 #'
 #' @importFrom rlang .data
 #'

@@ -16,17 +16,19 @@ sequence types. Options are:
 (e.g., "T1 MPRAGE/ISSPGR", "3D FLAIR")
 }}
 
-\item{...}{Additional parameters to pass to get_imaging such as site, cycle, apply_labels, and controls}
+\item{...}{Additional parameters to pass to get_imaging such as site, cycle,
+apply_labels, and controls}
 }
 \value{
 A tibble containing MRI sequence data with the following components:
 \itemize{
-\item Standard imaging metadata columns (subject identifiers, dates, etc.)
+\item Standard imaging metadata columns (subject identifiers,
+dates, etc.)
 \item \code{mri_done} - Numeric indicator of MRI completion status
-\item \code{mrseqs} - Pipe-separated string of sequence numbers (e.g., "1|3|5")
-indicating which sequences were performed, where numbers correspond to:
-1 = T1 MPRAGE, 2 = 3D FLAIR, 3 = T2*/SWI, 4 = DTI, 5 = ASL,
-6 = T2 FSE, 7 = rs-fMRI
+\item \code{mrseqs} - Pipe-separated string of sequence numbers
+(e.g., "1|3|5") indicating which sequences were performed,
+where numbers correspond to: 1 = T1 MPRAGE, 2 = 3D FLAIR,
+3 = T2*/SWI, 4 = DTI, 5 = ASL, 6 = T2 FSE, 7 = rs-fMRI
 \item Binary columns for each MRI sequence type (0/1 indicating
 presence/absence), with names determined by the \code{name} parameter
 }
@@ -34,8 +36,8 @@ presence/absence), with names determined by the \code{name} parameter
 \description{
 Retrieves and processes MRI sequence metadata from the ABCDS imaging data,
 including information about which MRI sequences were completed. The function
-converts sequence descriptions to abbreviated codes, creates binary indicators
-for each sequence type, and reconstructs a coded sequence string.
+converts sequence descriptions to abbreviated codes, creates binary
+indicators for each sequence type, and reconstructs a coded sequence string.
 }
 \details{
 The function performs several data processing steps:
@@ -45,11 +47,13 @@ The function performs several data processing steps:
 \item Converts full sequence descriptions in \code{mrseqs} to abbreviated
 codes using the internal \code{.mri_sequence_key} lookup table
 \item Removes extraneous whitespace around pipe delimiters
-\item Splits the pipe-delimited sequence string into separate binary columns
+\item Splits the pipe-delimited sequence string into separate
+binary columns
 \item Reorders columns to place sequence indicators at the end
 \item Reconstructs the \code{mrseqs} column as numeric codes (1-7)
 separated by pipes, based on which binary indicators equal 1
-\item Optionally converts abbreviated column names back to full descriptions
+\item Optionally converts abbreviated column names back to full
+descriptions
 }
 
 The function relies on an internal \code{.mri_sequence_key} data structure
@@ -62,7 +66,6 @@ mri_data <- get_mri_sequences()
 
 # Get MRI sequences with full descriptive column names
 mri_data <- get_mri_sequences(name = "description")
-
 }
 
 }

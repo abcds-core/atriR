@@ -15,13 +15,17 @@ get_consensus(
 \arguments{
 \item{...}{One or more unquoted variable names to retrieve from the dataset.}
 
-\item{site}{Optional; a site identifier or vector of site codes to subset data by site. Default is \code{NULL}.}
+\item{site}{Optional; a site identifier or vector of site codes to
+subset data by site. Default is \code{NULL}.}
 
-\item{cycle}{Optional; a cycle identifier or vector of cycles to subset data by cycle. Default is \code{NULL}.}
+\item{cycle}{Optional; a cycle identifier or vector of cycles to
+subset data by cycle. Default is \code{NULL}.}
 
-\item{apply_labels}{Logical; if \code{TRUE}, applies variable labels from the codebook to the returned data. Default is \code{FALSE}.}
+\item{apply_labels}{Logical; if \code{TRUE}, applies variable labels from the
+codebook to the returned data. Default is \code{FALSE}.}
 
-\item{controls}{A boolean value that indicates whether the function should return the controls, Default is \code{FALSE}}
+\item{controls}{A boolean value that indicates whether the function
+should return the controls, Default is \code{FALSE}}
 }
 \value{
 OUTPUT_DESCRIPTION

@@ -8,35 +8,35 @@ check_all_equations(
   outdir = NULL,
   by_task = TRUE,
   by_site = FALSE,
-  returnData = TRUE,
-  writeFile = FALSE
+  return_data = TRUE,
+  write_file = FALSE
 )
 }
 \arguments{
 \item{outdir}{Character; path to the directory where the output Excel
-file(s) will be saved. Required when \code{writeFile = TRUE}, ignored
+file(s) will be saved. Required when \code{write_file = TRUE}, ignored
 otherwise. Default is \code{NULL}.}
 
 \item{by_task}{Logical; if \code{TRUE}, organises results by task. When
-\code{writeFile = TRUE}, writes \code{equation_checks_by_task.xlsx} with
+\code{write_file = TRUE}, writes \code{equation_checks_by_task.xlsx} with
 one worksheet per task. Default is \code{TRUE}.}
 
 \item{by_site}{Logical; if \code{TRUE}, organises results by site. When
-\code{writeFile = TRUE}, writes \code{equation_checks_by_site.xlsx} with
+\code{write_file = TRUE}, writes \code{equation_checks_by_site.xlsx} with
 one worksheet per site. Default is \code{FALSE}.}
 
-\item{returnData}{Logical; if \code{TRUE}, returns the assessment results as
+\item{return_data}{Logical; if \code{TRUE}, returns the assessment results as
 a named list with one element per task. Default is \code{TRUE}.}
 
-\item{writeFile}{Logical; if \code{TRUE}, writes the results to Excel
+\item{write_file}{Logical; if \code{TRUE}, writes the results to Excel
 file(s) in \code{outdir}. Requires \code{outdir} to be specified.
 Default is \code{FALSE}.}
 }
 \value{
-If \code{returnData = TRUE}, a named list with one tibble per task,
+If \code{return_data = TRUE}, a named list with one tibble per task,
 each containing rows where stored values differ from computed values (see
 \code{\link{check_equations}} for column details). Returns \code{NULL}
-invisibly if \code{returnData = FALSE}.
+invisibly if \code{return_data = FALSE}.
 }
 \description{
 Validates derived variables across all supported tasks using
@@ -55,14 +55,14 @@ tasks: \code{ntgedsd}, \code{dld}, \code{npi}, \code{reiss}, \code{dsmse},
 \code{recall}, \code{iq}, \code{cancellation}, \code{verbal},
 \code{tbatgs}, \code{blockwisc}.
 
-When \code{by_site = TRUE} and \code{writeFile = TRUE}, results are filtered
+When \code{by_site = TRUE} and \code{write_file = TRUE}, results are filtered
 to the following sites: \code{UPITT}, \code{UCISOM}, \code{MGH},
 \code{WASHU}, \code{UWI}, \code{UKY}, \code{NYSIBRDD}, \code{UCAM},
 \code{KUMC}, \code{PRUCDD}.
 
-Note that \code{writeFile = TRUE} requires \code{outdir} to be set;
+Note that \code{write_file = TRUE} requires \code{outdir} to be set;
 if \code{outdir} is \code{NULL} no files will be written regardless of
-\code{writeFile}.
+\code{write_file}.
 }
 \examples{
 \dontrun{
@@ -71,17 +71,17 @@ results <- check_all_equations()
 
 # Write both workbooks and return results
 results <- check_all_equations(
-  outdir   = "output/checks",
-  by_task  = TRUE,
-  by_site  = TRUE,
-  writeFile = TRUE
+  outdir = "output/checks",
+  by_task = TRUE,
+  by_site = TRUE,
+  write_file = TRUE
 )
 
 # Write files only, suppress return value
 check_all_equations(
-  outdir      = "output/checks",
-  writeFile   = TRUE,
-  returnData  = FALSE
+  outdir = "output/checks",
+  write_file = TRUE,
+  return_data = FALSE
 )
 }
 

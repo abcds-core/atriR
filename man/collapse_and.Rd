@@ -10,16 +10,17 @@ collapse_and(x)
 \item{x}{A character vector of one or more values to collapse.}
 }
 \value{
-A single character string with the elements of \code{x} separated by commas
-and 'and' before the last element.
+A single character string with the elements of \code{x} separated
+by commas and 'and' before the last element.
 }
 \description{
-Collapses a character vector of two or more values into a single string,
-inserting 'and' before the last element and using an Oxford comma if necessary.
+Collapses a character vector of two or more values into a
+single string, inserting 'and' before the last element and
+using an Oxford comma if necessary.
 }
 \details{
-This function is useful for formatting lists in text output. For example,
-a vector \code{c("A", "B", "C")} will be collapsed as
+This function is useful for formatting lists in text output.
+For example, a vector \code{c("A", "B", "C")} will be collapsed as
 \code{"A, B, and C"}.
 }
 \keyword{internal}

@@ -2,7 +2,8 @@
 % Please edit documentation in R/utils.R
 \name{add_translated_value}
 \alias{add_translated_value}
-\title{Add variables to the ABC-DS dataset located in the translated value column}
+\title{Add variables to the ABC-DS dataset located in the translated
+value column}
 \usage{
 add_translated_value(
   data,
@@ -14,9 +15,11 @@ add_translated_value(
 A tibble or data frame
 }
 \description{
-Add variables to the ABC-DS dataset located in the translated value column
+Add variables to the ABC-DS dataset located in the
+translated value column
 }
 \details{
-Add variables to the ABC-DS dataset located in the translated value column
+Add variables to the ABC-DS dataset located in the
+translated value column
 }
 \keyword{internal}

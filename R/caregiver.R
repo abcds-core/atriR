@@ -1,25 +1,32 @@
 #' @title Retrieve the NTG-EDSD Variables from ABC-DS Data
 #' @description
-#' Extracts one or more variables from the NTG-EDSD in the ABC-DS dataset using the specified
-#' codebook. The function supports optional filtering by site and cycle and allows applying
+#' Extracts one or more variables from the NTG-EDSD in the ABC-DS
+#' dataset using the specified codebook. The function supports
+#' optional filtering by site and cycle and allows applying
 #' variable labels for enhanced interpretability.
 #'
 #' @param ... One or more unquoted variable names to retrieve from the dataset.
 #' @param study Character string indicating which study's ATRI EDC data to pull.
 #'   Valid options are `"abcds"` and `"trcds"`.
-#' @param site Optional; a site identifier or vector of site codes to subset data by site. Default is `NULL`.
-#' @param cycle Optional; a cycle identifier or vector of cycles to subset data by cycle. Default is `NULL`.
-#' @param apply_labels Logical; if `TRUE`, applies variable labels from the codebook to the returned data. Default is `FALSE`.
-#' @param controls A boolean value that indicates whether the function should return the controls, Default is `FALSE`
+#' @param site Optional; a site identifier or vector of site codes
+#'   to subset data by site. Default is `NULL`.
+#' @param cycle Optional; a cycle identifier or vector of cycles to subset
+#'   data by cycle. Default is `NULL`.
+#' @param apply_labels Logical; if `TRUE`, applies variable labels from the
+#'   codebook to the returned data. Default is `FALSE`.
+#' @param controls A boolean value that indicates whether the function
+#'   should return the controls, Default is `FALSE`
 #'
 #' @return
-#' A data frame containing the selected variables and any applied filters (site and/or cycle).
-#' If `apply_labels = TRUE`, variable labels are attached to the output as attributes.
+#' A data frame containing the selected variables and any applied
+#' filters (site and/or cycle). If `apply_labels = TRUE`, variable
+#' labels are attached to the output as attributes.
 #'
 #' @details
 #' This function provides a convenient wrapper around get_data
-#' to streamline access to ABC-DS NTG-EDSD variables. Quasiquotation is used to support
-#' tidy evaluation, allowing unquoted variable names and symbol references.
+#' to streamline access to ABC-DS NTG-EDSD variables. Quasiquotation
+#' is used to support tidy evaluation, allowing unquoted variable
+#' names and symbol references.
 #'
 #' @examples
 #' \dontrun{
@@ -47,18 +54,17 @@ get_ntgedsd <- function(
     site = NULL,
     cycle = NULL,
     apply_labels = FALSE,
-    controls = FALSE
-) {
-    study <- match.arg(study)
-    variables <- as.character(rlang::ensyms(...))
-    get_data(
-        study = study,
-        dataset = "ntgedsd",
-        codebook = "ntgedsd",
-        variables,
-        site = site,
-        cycle = cycle,
-        apply_labels = apply_labels,
-        controls = controls
-    )
+    controls = FALSE) {
+  study <- match.arg(study)
+  variables <- as.character(rlang::ensyms(...))
+  get_data(
+    study = study,
+    dataset = "ntgedsd",
+    codebook = "ntgedsd",
+    variables,
+    site = site,
+    cycle = cycle,
+    apply_labels = apply_labels,
+    controls = controls
+  )
 }
