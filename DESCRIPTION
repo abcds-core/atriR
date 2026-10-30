@@ -31,7 +31,6 @@ Imports:
   tools,
   utils
 Remotes:
-  bhelsel/bhelselR,
   bhelsel/abcds
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

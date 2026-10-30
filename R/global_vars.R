@@ -1,33 +1,5 @@
 if (getRversion() >= "2.15.1") {
-  utils::globalVariables(c(
-    # "ptdob",
-    # "de_eval_date",
-    # "verbal",
-    # "nonverbal",
-    # "iq",
-    # "min_age",
-    # "max_age",
-    # "ae",
-    # "crf_data",
-    # "crf_data_exclude_phi",
-    # "coenroll_exclude_phi",
-    # "dd_field_name",
-    # "dd_revision_field_value",
-    # "subject_label",
-    # "site_label",
-    # "Site",
-    # "items",
-    # "edc",
-    # "inner_join",
-    # ".",
-    # "latest",
-    # "de_race",
-    # "abcds",
-    # "trcds",
-    # "full_join",
-    # "data_dictionary",
-    # "control"
-  ))
+  utils::globalVariables(c())
 }
 
 
